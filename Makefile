@@ -44,7 +44,9 @@ SRCS :=	 $(addprefix sources/, \
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
 	tokenizer_counters.c	tokenizer_redirec.c)	\
 	$(addprefix utils/,	\
-	frees_2.c	frees.c	list_utils.c))
+	frees_2.c	frees.c	list_utils.c)	\
+	$(addprefix execs/,	\
+	execute.c))
 
 OBJS = $(SRCS:.c=.o)
 

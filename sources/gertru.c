@@ -14,6 +14,8 @@
 
 /* Funcion que recive la linea de readline()
 y llama al resto de funciones principales*/
+unsigned char	g_exit_status = 0;
+
 void	read_imput(t_pipes *data)
 {
 	char *line = NULL;
@@ -29,7 +31,7 @@ void	read_imput(t_pipes *data)
 		if (line != NULL)
 		{
 			parsing_init(data, line);
-			
+			execute(data);
 			/*printf(" > %s" ,data->envps[i]);
 			//printf(" > %s\n", line);
 			i++;*/

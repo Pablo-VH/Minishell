@@ -33,6 +33,8 @@
 # define N_HRD 2 // es heredoc
 # define N_AOUTF 3 // es outfile en modo apend
 
+extern unsigned char	g_exit_status;
+
 typedef struct s_files
 {
 	char			**file; // doble puntero con los fichero del nodo (done)
