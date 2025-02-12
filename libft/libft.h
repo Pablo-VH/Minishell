@@ -42,6 +42,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 
 char	*ft_superjoin(const char *s1, char c ,const char *s2);
 
+char	**ft_split(char const *s, char c);
+
 int	ft_isalnum(int c);
 
 int	ft_isalpha(int c);

@@ -22,7 +22,7 @@ void	execute(t_pipes *data)
 		open_files(data);
 	if (data->num_cmds == 1)
 	{
-		if (check_builtin(data) == 1)
+		if (check_builtin(data, 0) == 1)
 			return ;
 	}
 	cmds_exec(data);
