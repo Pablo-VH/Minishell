@@ -39,14 +39,16 @@ YELLOW =		\033[0;93m
 RESET=			\033[0m
 
 SRCS :=	 $(addprefix sources/, \
-	gertru.c	\
+	gertru.c)	\
 	$(addprefix parsing/,	\
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
 	tokenizer_counters.c	tokenizer_redirec.c)	\
 	$(addprefix utils/,	\
-	frees_2.c	frees.c	list_utils.c)	\
+	frees_2.c	frees.c	list_utils.c length.c)	\
 	$(addprefix execs/,	\
-	execute.c))
+	execute.c buitins.c) \
+	$(addprefix files/,	\
+	admin_files.c) \
 
 OBJS = $(SRCS:.c=.o)
 

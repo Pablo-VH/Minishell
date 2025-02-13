@@ -62,11 +62,12 @@ typedef struct s_pipes
 	//char	**limiters; // palabras delimitadoras de los heredoc (done)  <<== pasar a s_files
 	//char	**files; // contiene todos los archivos
 	int		mode; // (pav)
-	pid_t	*pids; // (forcks)
+	pid_t	*pids; // (forks)
 	int		num_cmds; // num comandos (to do)
 	char	**envps; // puntero a enviroment (done)
 	int		nhrd; // numero de heredocs (done)
 	int		npipes; // numero de pipes (to do)
+	char	*pwd;
 	//int		nfiles; // numero de archivos
 	int		flag;
 	t_cmds	*cmds; // lista de comandos
@@ -112,6 +113,8 @@ void	reset_comand(t_pipes *data,char *comand);
 
 //List Utils
 
+int	array_length(char **str);
+
 int		init_pid(t_pipes **data);
 
 int		init_fd(t_pipes *data);
@@ -143,5 +146,14 @@ void	ft_free_tab(char **tab);
 void	free_lists(t_cmds *lst);
 
 void	close_files(t_cmds *list);
+
+//execs
+int		check_builtin(t_pipes *data, int in_child);
+
+void	execute(t_pipes *data);
+
+void	ft_echo(t_pipes *data, char **builtin);
+
+void	ft_cd(t_pipes *data, char **builtin);
 
 #endif
