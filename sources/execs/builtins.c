@@ -59,7 +59,23 @@ void	ft_cd(t_pipes *data, char **builtin)
 {
 	if (array_length(builtin) > 2)
 		write_n_status("minishell: cd: Too many arguments", 1);
+
 	
+}
+
+void	print_env(t_pipes *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->env)
+	{
+		while (data->envps[i])
+		{
+			printf("%s\n", data->envps[i]);
+			i++;
+		}
+	}
 }
 
 int	check_builtin(t_pipes *data, int in_child)

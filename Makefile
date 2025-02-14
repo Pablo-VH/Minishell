@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = gertru
+NAME = minishell
 
 CC	= gcc
 
@@ -28,8 +28,9 @@ CFLAGS = -Wall -Werror -Wextra -g3 $(HEADERS)
 GPATH = libft
 
 LIBFT_PATH = $(GPATH)/libft.a
+OBJS_DIR = objs/
 
-# Colors
+# Colores
 RED =			\033[0;31m
 GREEN =			\033[0;92m
 CYAN =			\033[0;96m
@@ -39,28 +40,34 @@ YELLOW =		\033[0;93m
 RESET=			\033[0m
 
 SRCS :=	 $(addprefix sources/, \
-	gertru.c)	\
+	gertru.c	\
 	$(addprefix parsing/,	\
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
 	tokenizer_counters.c	tokenizer_redirec.c)	\
 	$(addprefix utils/,	\
 	frees_2.c	frees.c	list_utils.c length.c)	\
 	$(addprefix execs/,	\
-	execute.c buitins.c) \
+	execute.c builtins.c) \
 	$(addprefix files/,	\
-	admin_files.c) \
+	admin_files.c)) 
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=$(OBJS_DIR)%.o)
 
-$(NAME) : $(OBJS)
-	make _libft $(LIBFT_PATH)
-	make print_title
+$(NAME): $(OBJS)
+	@make _libft $(LIBFT_PATH)
+	@make print_title
 	@echo "$(GREEN)Creando ejecutable"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_PATH) -o $(NAME) -lreadline
 	@echo "Ejecutable Creado$(RESET)"
 
+$(OBJS_DIR)%.o: %.c | $(OBJS_DIR)
+	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-all : _libft $(NAME)
+$(OBJS_DIR):
+	mkdir -p $(OBJS_DIR)
+
+all: _libft $(NAME)
 
 print_title:
 	echo "$(PURPLE) ██████╗ ███████╗██████╗ ████████╗██████╗ ██╗   ██╗"
@@ -68,21 +75,19 @@ print_title:
 	echo "██║  ███╗█████╗  ██████╔╝   ██║   ██████╔╝██║   ██║"
 	echo "██║   ██║██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║"
 	echo "╚██████╔╝███████╗██║  ██║   ██║   ██║  ██║╚██████╔╝"
-	echo " ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ $(RESET)"
-                                                   
+	echo " ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚╝ ╚═════╝ $(RESET)"
 
-
-clean :
-	rm -fr $(OBJS)
+clean:
+	rm -rf $(OBJS_DIR)
 	@make clean -C $(GPATH)
 
-fclean : clean
-	rm -f  $(NAME)
+fclean: clean
+	rm -f $(NAME)
 	@make fclean -C $(GPATH)
 
-re : fclean all
+re: fclean all
 
-_libft :
+_libft:
 	@make -C $(GPATH)
 
 .PHONY: all clean fclean re print_title
