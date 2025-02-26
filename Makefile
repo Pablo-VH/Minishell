@@ -45,11 +45,11 @@ SRCS :=	 $(addprefix sources/, \
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
 	tokenizer_counters.c	tokenizer_redirec.c)	\
 	$(addprefix utils/,	\
-	frees_2.c	frees.c	list_utils.c length.c)	\
+	frees_2.c	frees.c	list_utils.c length.c prints.c)	\
 	$(addprefix execs/,	\
-	execute.c builtins.c) \
+	execute.c builtins.c ft_cd.c ft_exit.c unset.c) \
 	$(addprefix files/,	\
-	admin_files.c)) 
+	admin_files.c utils_files.c)) 
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)%.o)
 

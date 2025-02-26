@@ -32,7 +32,7 @@ void	read_imput(t_pipes *data)
 		{
 			parsing_init(data, line);
 			execute(data);
-			/*printf(" > %s" ,data->envps[i]);
+			/*printf(" > %s" ,data->env[i]);
 			//printf(" > %s\n", line);
 			i++;*/
 			/*AL FINAL TENDREMOS QUE LIBERAR LA MEMORIA
@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp)
 	t_pipes *data;
 
 	data = ft_calloc(1, sizeof(t_pipes));
-	data->envps = envp;
+	data->env = envp;
 
 	if (argc == 1)
 		read_imput(data);

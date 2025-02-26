@@ -41,12 +41,14 @@ typedef struct s_files
 	int				*flagfd; // numero que indica que tipo de redireccion/ejecuciones (done)
 	int				*fd; // fd del documento (pav)
 	int				nfiles; // numero de ficheros en el nodo  (done)
+	int				*exp;
 }		t_files;
 
 typedef struct s_cmds
 {
 	char			*cmd; // puntero del comando (done)
 	t_files			*s_files; // estructura que contiene los ficheros del nodo (done)
+	char			**args;
 	struct s_cmds	*next;
 }			t_cmds;
 
@@ -64,10 +66,12 @@ typedef struct s_pipes
 	int		mode; // (pav)
 	pid_t	*pids; // (forks)
 	int		num_cmds; // num comandos (to do)
-	char	**envps; // puntero a enviroment (done)
+	char	**env; // puntero a enviroment (done)
 	int		nhrd; // numero de heredocs (done)
 	int		npipes; // numero de pipes (to do)
 	char	*pwd;
+	char	*oldpwd;
+	int		stop_exec_hd;
 	//int		nfiles; // numero de archivos
 	int		flag;
 	t_cmds	*cmds; // lista de comandos
@@ -155,5 +159,20 @@ void	execute(t_pipes *data);
 void	ft_echo(t_pipes *data, char **builtin);
 
 void	ft_cd(t_pipes *data, char **builtin);
+
+void	write_error(char *msg, char *arg);
+
+int		ft_exit(t_pipes *data, int in_child, char **builtin);
+
+void	ft_cd(t_pipes *data, char **builtin);
+
+void	unset(t_pipes *data);
+
+void	print_env(t_pipes *data);
+
+//files
+int		heredoc(t_pipes *data, int i);
+
+void	open_tmp_file(t_pipes *data, int i);
 
 #endif

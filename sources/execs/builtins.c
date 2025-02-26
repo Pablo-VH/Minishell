@@ -55,52 +55,31 @@ void	ft_echo(t_pipes *data, char **builtin)
 		printf("\n");
 }
 
-void	ft_cd(t_pipes *data, char **builtin)
-{
-	if (array_length(builtin) > 2)
-		write_n_status("minishell: cd: Too many arguments", 1);
-
-	
-}
-
-void	print_env(t_pipes *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->env)
-	{
-		while (data->envps[i])
-		{
-			printf("%s\n", data->envps[i]);
-			i++;
-		}
-	}
-}
-
 int	check_builtin(t_pipes *data, int in_child)
 {
-	char	**args;
-
-	args = ft_split(data->cmds->cmd, " ");
-	if (!args || !args[0])
+	data->cmds->args = ft_split(data->cmds->cmd, " ");
+	if (!data->cmds->args || !data->cmds->args[0])
 		return (1);
-	else if (in_child == 1 && !ft_strcmp(args[0], "echo"))
-		return (ft_echo(data, args), 1);
-	else if (in_child == 1 && !ft_strcmp(args[0], "pwd"))
+	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "echo"))
+		return (ft_echo(data, data->cmds->args), 1);
+	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "pwd"))
+	{
+		if (!data->pwd)
+			data->pwd = getcwd(NULL, 0);
 		return (printf("%s\n", data->pwd));
-	else if (in_child == 1 && !ft_strcmp(args[0], "env"))
+	}
+	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "env"))
 		return (print_env(data), 1);
-	else if (!ft_strcmp(args[0], "cd"))
-		return (ft_cd(data, args), 1);
-	else if (!ft_strcmp(args[0], "export"))
+	else if (!ft_strcmp(data->cmds->args[0], "cd"))
+		return (ft_cd(data, data->cmds->args), 1);
+	else if (!ft_strcmp(data->cmds->args[0], "export"))
 		return (export(data), 1);
-	else if (!ft_strcmp(args[0], "unset"))
+	else if (!ft_strcmp(data->cmds->args[0], "unset"))
 	{
 		g_exit_status = 0;
 		return (unset(data), 1);
 	}
-	else if (!ft_strcmp(args[0], "exit"))
-		return (do_exit(data, in_child));
+	else if (!ft_strcmp(data->cmds->args[0], "exit"))
+		return (ft_exit(data, in_child, data->cmds->args));
 	return (0);
 }
