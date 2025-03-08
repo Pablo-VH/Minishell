@@ -38,6 +38,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 
 void	*ft_free_array(char **array);
 
+void	ft_free_void_array(void **array);
+
 char	*ft_strjoin(const char *s1, const char *s2);
 
 char	*ft_strjoin_free(const char *s1, const char *s2);

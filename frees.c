@@ -98,16 +98,3 @@ void	free_lists(t_lists *lst)
 	}
 }
 
-void	close_files(t_lists *list)
-{
-	t_lists	*tmp;
-
-	tmp = list;
-	while (list)
-	{
-		if (list->docs->fd > 0)
-			close(list->docs->fd);
-		list = list->next;
-	}
-	list = tmp;
-}

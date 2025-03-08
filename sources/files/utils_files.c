@@ -38,3 +38,26 @@ void	open_tmp_file(t_pipes *data, int i)
 	}
 	count++;
 }
+
+void	close_files(t_cmds *list)
+{
+	int	i;
+	t_cmds	*tmp;
+
+	tmp = list;
+	while (list)
+	{
+		i = 0;
+		while (list->s_files && list->s_files->file[i])
+		{
+			if (list->s_files->fd[i] > 0)
+			{
+				close(list->s_files->fd[i]);
+				list->s_files->fd[i] = -1;
+			}
+			i++;
+		}
+		list = list->next;
+	}
+	list = tmp;
+}

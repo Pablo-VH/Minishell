@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "gertru.h"
 
-int		check_echo_flag(char *str, int *flag)
+int	check_echo_flag(char *str, int *flag)
 {
 	int	i;
 
@@ -57,7 +56,6 @@ void	ft_echo(t_pipes *data, char **builtin)
 
 int	check_builtin(t_pipes *data, int in_child)
 {
-	data->cmds->args = ft_split(data->cmds->cmd, " ");
 	if (!data->cmds->args || !data->cmds->args[0])
 		return (1);
 	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "echo"))

@@ -44,8 +44,6 @@ int	ft_exit(t_pipes *data, int in_child, char **builtin)
 
 	if (!in_child)
 		printf("exit\n");
-	/*if (data->file_fd != -1)
-		close(data->file_fd);*/
 	exit_status = check_args(builtin);
 	if (!exit_status && builtin[1])
 		exit_status = ft_atoi(builtin[1]);

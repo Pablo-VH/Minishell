@@ -10,8 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "gertru.h"
+
+static void	open_files(t_pipes *data)
+{
+	int		i;
+	t_cmds	*tmp;
+	int		stop;
+
+	tmp = data->cmds;
+	while (data->cmds)
+	{
+		stop = 0;
+		i = 0;
+		while (data->cmds->s_files && data->cmds->s_files->file[i] && stop == 0)
+		{
+			if (data->cmds->s_files->flagfd[i] == N_INF)
+				stop = infile(data, i);
+			if (data->cmds->s_files->flagfd[i] == N_OUTF)
+				stop = outfile(data, i);
+			if (data->cmds->s_files->flagfd[i] == N_AOUTF)
+				stop = append(data, i);
+			i++;
+		}
+		data->cmds = data->cmds->next;
+	}
+	data->cmds = tmp;
+}
 
 static int	open_heredocs(t_pipes *data)
 {

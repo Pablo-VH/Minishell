@@ -31,6 +31,7 @@ void	read_imput(t_pipes *data)
 		if (line != NULL)
 		{
 			parsing_init(data, line);
+			data->cmds->args = ft_split(data->cmds->cmd, " ");
 			execute(data);
 			/*printf(" > %s" ,data->env[i]);
 			//printf(" > %s\n", line);

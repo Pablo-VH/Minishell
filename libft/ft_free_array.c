@@ -12,6 +12,24 @@
 
 #include "libft.h"
 
+void	ft_free_void_array(void **array)
+{
+	size_t	i;
+
+	i = 0;
+	if (array)
+	{
+		while (array[i])
+		{
+			free(array[i]);
+			array[i] = NULL;
+			i++;
+		}
+		free(array);
+		array = NULL;
+	}
+}
+
 void	*ft_free_array(char **array)
 {
 	size_t	i;
