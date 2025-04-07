@@ -36,10 +36,7 @@ void	read_imput(t_pipes *data)
 			/*printf(" > %s" ,data->env[i]);
 			//printf(" > %s\n", line);
 			i++;*/
-			/*AL FINAL TENDREMOS QUE LIBERAR LA MEMORIA
-				DE TODAS LAS VARIABLES QUE QUE SE TENGAN
-				QUE RESETEAR Y RESETEARLAS A 0/NULL*/
-			data->num_cmds = 0;
+			ft_free_all(data);
 		}
 		add_history(line);
 	}
@@ -50,7 +47,7 @@ int main(int argc, char **argv, char **envp)
 	t_pipes *data;
 
 	data = ft_calloc(1, sizeof(t_pipes));
-	data->env = envp;
+	data->env = ft_init_env(envp);
 
 	if (argc == 1)
 		read_imput(data);

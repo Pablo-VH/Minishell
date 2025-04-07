@@ -78,7 +78,7 @@ void	ft_cd(t_pipes *data, char **builtin)
 	int	res;
 
 	res = 0;
-	if (array_length(builtin) > 2)
+	if (ft_array_length(builtin) > 2)
 		write_n_status("minishell: cd: Too many arguments", 1);
 	if (builtin[1] && (builtin[1] != '~' || builtin[1] != '-'))
 		res = chdir(builtin[1]);

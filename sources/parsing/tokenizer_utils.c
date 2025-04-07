@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:07:08 by dgargant          #+#    #+#             */
-/*   Updated: 2025/02/07 10:46:48 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:36:42 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 // retocar para cosas especificas
 // Esta funcion crea un (char *) con el comando
+// hay que recoger el comando teniendo en cuenta comillas
+// no hay que recoger las comillas
 char	*take_cmd(char *line ,int i)
 {
 	int 	j;
@@ -23,7 +25,22 @@ char	*take_cmd(char *line ,int i)
 	j =  i;
 	while(line[j])
 	{
-		if ((line[j] == '<' || line[j] == '>' || line[j] == '|'))
+		if (line[j] == '"')
+		{
+			j++;
+			while (line[j] != '"')
+				j++;
+			j++;
+		}
+		else if (line[j] == '\'')
+		{
+			j++;
+			while (line[j] != '\'')
+				j++;
+			j++;
+		}else if ((line[j] == '<' || line[j] == '>' || line[j] == '|'))
+			break;
+		if  (!(line[j] >= '!' && line[j] <= 126))
 			break;
 		j++;
 	}
@@ -33,6 +50,8 @@ char	*take_cmd(char *line ,int i)
 
 
 // recoge el primer comando
+// hay que recoger el comando teniendo en cuenta comillas
+// no hay que recoger las comillas
 int take_fist_token(t_pipes *data ,char *line)
 {
 	int i;
@@ -41,18 +60,34 @@ int take_fist_token(t_pipes *data ,char *line)
 	
 	i = 0;
 	comand = NULL;
+	count_cmds(data, line);
+	// es posible que pueda cambiar esta parte por take_cmd()
 	while (line[i] && !(line[i] >= '!' && line[i] <= 126))
-	{
 		i++;
-	}
 	j = i;
 	while(line[j])
 	{
-		if ((line[j] == '<' || line[j] == '>' || line[j] == '|' || line[j] == '$'))
+		if (line[j] == '"')
+		{
+			j++;
+			while (line[j] != '"')
+				j++;
+			j++;
+		}
+		else if (line[j] == '\'')
+		{
+			j++;
+			while (line[j] != '\'')
+				j++;
+			j++;
+		}else if (line[j] == '<' || line[j] == '>' || line[j] == '|')
+			break;
+		if  (!(line[j] >= '!' && line[j] <= 126))
 			break;
 		j++;
 	}
 	comand = ft_substr(line, i, (j - i));
+	//printf("\n<<< %s >>>\n", comand);
 	take_token(data, comand);
 	count_node_files(data, line, i);
 	if ((comand[0] == '\0'))

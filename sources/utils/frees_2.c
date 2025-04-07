@@ -31,3 +31,88 @@ void	free_fd(t_pipes *data)
 		data->fd = NULL;
 	}
 }
+
+void	reset_int(t_pipes *data)
+{
+	data->mode = 0;
+	data->num_cmds = 0;;
+	data->nhrd = 0;
+	data->npipes = 0;
+	data->stop_exec_hd = 0;
+	data->flag = 0;
+}
+
+void	ft_free_s_files(t_files *files)
+{
+	if (files->file)
+		ft_free_void_array((void **) files->file);
+	if (files->exp)
+	{
+		free(files->exp);
+		files->exp = NULL;
+	}
+	if (files->flagfd)
+	{
+		free(files->flagfd);
+		files->flagfd = NULL;
+	}
+	if (files->fd)
+	{
+		free(files->fd);
+		files->fd = NULL;
+	}
+	files->nfiles = 0;
+	free(files);
+	files = NULL;
+}
+
+void	ft_free_cmds(t_cmds *list, t_cmds *tmp)
+{
+	while (list)
+	{
+		tmp = list;
+		if (list->args)
+			ft_free_void_array((void **)list->args);
+		if (list->s_files)
+			ft_free_s_files(list->s_files);
+		if (list->cmd)
+		{
+			free(list->cmd);
+			list->cmd = NULL;
+		}
+		list->stop_exec = 0;
+		list = list->next;
+		free(tmp);
+		tmp = NULL;
+	}
+	free (list);
+	list = NULL;
+}
+
+void	ft_free_all(t_pipes *data)
+{
+	if (data->env)
+		ft_free_void_array((void **)data->env);
+	if (data->fd)
+		ft_free_void_array((void **)data->fd);
+	if (data->pwd)
+	{
+		free(data->pwd);
+		data->pwd = NULL;
+	}
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
+	if (data->oldpwd)
+	{
+		free(data->oldpwd);
+		data->oldpwd = NULL;
+	}
+	if (data->cmds)
+		ft_free_cmds(data->cmds, data->cmds);
+	reset_int(data);
+	free(data);
+	data = NULL;
+}

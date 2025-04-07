@@ -12,8 +12,50 @@
 
 #include "gertru.h"
 
+char	**ft_delete_env_var(char **env, int i)
+{
+	int		len;
+	char	**res;
+	int		j;
+
+	len = ft_array_length(env);
+	res = ft_calloc(len, sizeof(char *));
+	j = 0;
+	while (env[j])
+	{
+		if (strncmp(env[j], env[i], ft_strlen(env[j])))
+			res[j] = ft_strdup(env[j]);
+		j++;
+	}
+	res[j] = NULL;
+	ft_free_void_array((void **)env);
+	return (res);
+}
+
 void	unset(t_pipes *data)
 {
+	int		i;
+	int		j;
+	size_t	len;
+
+	i = 0;
 	if (!data->env)
 		return ;
+	while (data->cmds->args[i])
+	{
+		j = 0;
+		while (data->env[j])
+		{
+			if (ft_strcmp(data->cmds->args[i], "unset"))
+			{
+				len = ft_strlen(data->cmds->args[i]);
+				while (data->env[j]
+					&& ft_strncmp(data->cmds->args[i], data->env[j], len))
+					j++;
+				if (data->env[j])
+					data->env = ft_delete_env_var(data->env, j);
+			}
+		}
+		i++;
+	}
 }

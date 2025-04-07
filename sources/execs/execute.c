@@ -12,6 +12,25 @@
 
 #include "gertru.h"
 
+void	wait_pids(t_pipes *data, int i)
+{
+	while (i < data->num_cmds)
+	{
+		if (data->pids)
+		{
+			if (i == data->num_cmds -1)
+				waitpid(data->pids[i], &data->status, 0);
+			else
+				waitpid(data->pids[i], NULL, 0);
+		}
+		i++;
+	}
+	if(WIFEXITED(data->status))
+		g_exit_status = WEXITSTATUS(data->status);
+	else if (WIFSIGNALED(data->status))
+		g_exit_status = WTERMSIG(data->status) + 128;
+}
+
 static void	open_files(t_pipes *data)
 {
 	int		i;

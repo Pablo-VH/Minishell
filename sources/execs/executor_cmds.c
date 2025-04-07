@@ -79,10 +79,10 @@ static int	child_process(t_pipes *data, int i, t_cmds *tmp)
 		close_files(tmp);
 		if (data->cmds->stop_exec)
 		{
-			ft_free_all(data);//
+			ft_free_all(data);
 			exit(1);
 		}
-		executor(data);//
+		executor(data, tmp);
 	}
 	return (0);
 }
@@ -100,13 +100,12 @@ void	cmds_exec(t_pipes *data)
 	{
 		if (child_process(data, i, tmp))
 			break ;
-		signal(SIGINT, SIG_IGN);//
+		signal(SIGINT, SIG_IGN);
 		data->cmds = data->cmds->next;
 		i++;
 	}
 	data->cmds = tmp;
-	close_pipes(data, 0);//
-	close_files(data->cmds);//
-	wait_pids(data, 0);//
-	ft_free_pids(&data->pids);//
+	close_pipes(data, 0);
+	close_files(data->cmds);
+	wait_pids(data, 0);
 }

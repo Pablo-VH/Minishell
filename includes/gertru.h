@@ -21,6 +21,7 @@
 # include <signal.h>
 # include "../libft/libft.h"
 # include <fcntl.h>
+# include <sys/wait.h>
 # define RED "\001\033[0;31m\002"
 # define GREEN "\001\033[0;32m\002"
 # define PURPLE "\001\033[0;95m\002"
@@ -51,10 +52,14 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }			t_cmds;
 
-/*typedef struct s_parse
+typedef struct s_pars
 {
-	int		nfiles;
-}			t_parse;*/
+	int		fdb; //flag comillas dobles
+	int		fs; //flag comillas simples
+	int		count; //contador
+	int		np;
+	int		*ncmds;
+}			t_pars;
 
 typedef struct s_pipes
 {
@@ -68,13 +73,13 @@ typedef struct s_pipes
 	char	*pwd;
 	char	*oldpwd;
 	int		stop_exec_hd;
+	int		status;
 	//int		nfiles; // numero de archivos
 	int		flag;
 	t_cmds	*cmds; // lista de comandos
-	//t_parse *parse; // estructura de datos de parseo
+	t_pars *pars; // estructura de datos de parseo
 }			t_pipes;
 
-int		main(int argc, char **argv, char **envp);
 
 void	read_imput(t_pipes *data);
 
@@ -108,11 +113,19 @@ void	set_node_files(t_pipes *data, char *file, int flagfd);
 
 void	reset_comand(t_pipes *data, char *comand);
 
+int		sintax_init(t_pipes *data, char *line);
+
+void	reset_quotes(t_pipes *data);
+
+void	count_cmds(t_pipes *data, char *line);
+
+int		ft_is_token(char *line, int i);
+
 //int	is_piped(char *line, int i);
 
 //List Utils
 
-int		array_length(char **str);
+int		ft_array_length(char **str);
 
 int		init_pid(t_pipes **data);
 
@@ -124,11 +137,11 @@ void	ft_lstadd_back(t_cmds *slst, t_cmds *new);
 
 // list utils files
 
-t_files	*file_lstlast(t_files *lst);
+/*t_files	*file_lstlast(t_files *lst);
 
 void	file_lstadd_back(t_files *lst, t_files *new);
 
-t_files	*file_lstnew(int flagfd);
+t_files	*file_lstnew(int flagfd);*/
 
 //t_cmds	*ft_lstnew(int flagfd, char *cmd, char *file);
 
@@ -150,6 +163,8 @@ void	close_pipes(t_pipes *data, int i);
 
 void	redir_files(t_pipes *data, t_cmds *list);
 
+void	ft_free_all(t_pipes *data);
+
 //execs
 int		check_builtin(t_pipes *data, int in_child);
 
@@ -167,6 +182,8 @@ void	ft_cd(t_pipes *data, char **builtin);
 
 void	unset(t_pipes *data);
 
+void	export(t_pipes *data);
+
 void	print_env(t_pipes *data);
 
 void	pipes_redirs(t_pipes *data, int i, t_cmds *list);
@@ -176,14 +193,16 @@ int		heredoc(t_pipes *data, int i);
 
 void	open_tmp_file(t_pipes *data, int i);
 
-int	append(t_pipes *data, int i);
+int		append(t_pipes *data, int i);
 
-int	outfile(t_pipes *data, int i);
+int		outfile(t_pipes *data, int i);
 
-int	outfile(t_pipes *data, int i);
+int		outfile(t_pipes *data, int i);
 
-int	infile(t_pipes *data, int i);
+int		infile(t_pipes *data, int i);
 
 void	cmds_exec(t_pipes *data);
+
+void	executor(t_pipes *data, t_cmds *tmp);
 
 #endif

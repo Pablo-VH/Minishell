@@ -47,7 +47,8 @@ SRCS :=	 $(addprefix sources/, \
 	$(addprefix utils/,	\
 	frees_2.c	frees.c	list_utils.c length.c prints.c)	\
 	$(addprefix execs/,	\
-	execute.c builtins.c ft_cd.c ft_exit.c unset.c executor_cmds.c) \
+	execute.c builtins.c ft_cd.c ft_exit.c unset.c executor_cmds.c\
+	exec_cmd.c redirs.c unset.c) \
 	$(addprefix files/,	\
 	admin_files.c utils_files.c)) 
 
