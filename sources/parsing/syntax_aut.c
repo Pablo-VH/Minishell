@@ -15,12 +15,12 @@
 int	get_state(int prev, int pos)
 {
 	const int	matrix[][7] = {
-	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_PIP, A_RIN, A_ROU}, // 0 A_INI
+	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_ERR, A_RIN, A_ROU}, // 0 A_INI
 	{A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR}, // 1 A_ERR
 	{A_ERR, A_INI, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB}, // 2 A_DOB
 	{A_ERR, A_INI, A_SIN, A_SIN, A_SIN, A_SIN, A_SIN, A_SIN}, // 3 A_SIN
-	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_PIP, A_RIN, A_ROU}, // 4 A_SPA
-	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_PIP, A_RIN, A_ROU}, // 5 A_PRI
+	{A_ERR, A_DOB, A_SIN, A_PRI, A_PRI, A_PIP, A_RIN, A_ROU}, // 4 A_SPA
+	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_ERR, A_RIN, A_ROU}, // 5 A_PRI
 	{A_ERR, A_DOB, A_SIN, A_PIP, A_PRI, A_ERR, A_RIN, A_ROU}, // 6 A_PIP
 	{A_ERR, A_DOB, A_SIN, A_RIN, A_PRI, A_ERR, A_RIO, A_ERR}, // 7 A_RIN
 	{A_ERR, A_DOB, A_SIN, A_RIN, A_PRI, A_ERR, A_ERR, A_RIO}, // 8 A_ROU
