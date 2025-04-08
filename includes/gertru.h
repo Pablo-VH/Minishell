@@ -134,6 +134,8 @@ void	count_cmds(t_pipes *data, char *line);
 
 int		ft_is_token(char *line, int i);
 
+int		ft_check_syntax(char *line);
+
 //int	is_piped(char *line, int i);
 
 //List Utils
