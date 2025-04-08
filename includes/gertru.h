@@ -77,23 +77,22 @@ typedef struct s_pipes
 	//int		nfiles; // numero de archivos
 	int		flag;
 	t_cmds	*cmds; // lista de comandos
-	t_pars *pars; // estructura de datos de parseo
+	t_pars	*pars; // estructura de datos de parseo
 }			t_pipes;
 
-typedef enum 
+typedef enum s_aut
 {
 	A_INI,
 	A_ERR,
 	A_DOB,
 	A_SIN,
-    A_SPA,
+	A_SPA,
 	A_PRI,
 	A_PIP,
 	A_RIN,
 	A_ROU,
 	A_RIO,
-}	n_aut;
-
+}	t_aut;
 
 void	read_imput(t_pipes *data);
 
