@@ -37,6 +37,7 @@ void	ft_echo(t_pipes *data, char **builtin)
 
 	i = 1;
 	flag = 0;
+	(void)data;
 	while (builtin[i])
 	{
 		if (check_echo_flag(builtin[i], &flag))

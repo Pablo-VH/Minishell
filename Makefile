@@ -43,12 +43,12 @@ SRCS :=	 $(addprefix sources/, \
 	gertru.c	\
 	$(addprefix parsing/,	\
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
-	tokenizer_counters.c	tokenizer_redirec.c)	\
+	tokenizer_counters.c	tokenizer_redirec.c syntax_init.c syntax_aut.c)	\
 	$(addprefix utils/,	\
-	frees_2.c	frees.c	list_utils.c length.c prints.c)	\
+	frees_2.c	frees.c	list_utils.c length.c prints.c init_env.c)	\
 	$(addprefix execs/,	\
-	execute.c builtins.c ft_cd.c ft_exit.c unset.c executor_cmds.c\
-	exec_cmd.c redirs.c unset.c) \
+	execute.c builtins.c ft_cd.c ft_exit.c executor_cmds.c \
+	exec_cmd.c redirs.c unset.c get_pwd.c export.c) \
 	$(addprefix files/,	\
 	admin_files.c utils_files.c)) 
 

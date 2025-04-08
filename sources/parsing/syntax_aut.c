@@ -14,7 +14,7 @@
 
 int	get_state(int prev, int pos)
 {
-	const int	matrix[][7] = {
+	const int	matrix[][8] = {
 	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_ERR, A_RIN, A_ROU}, // 0 A_INI
 	{A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR}, // 1 A_ERR
 	{A_ERR, A_INI, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB}, // 2 A_DOB
@@ -41,7 +41,7 @@ int	check_state(int prev, char c)
 		pos = 2;
 	else if (ft_isspace(c))
 		pos = 3;
-	else if (ft_isprint(c) && !ft_isspace(c) && !ft_ispipe(c) && !is_redir(c))
+	else if (ft_isprint(c) && !ft_isspace(c) && c != '|' && c != '<' && c != '>')
 		pos = 4;
 	else if (c == '|')
 		pos = 5;
@@ -61,12 +61,18 @@ int	ft_check_syntax(char *line)
 	i = 0;
 	while (line[i])
 	{
-		state = choose_state(state, line[i]);
+		state = check_state(state, line[i]);
 		if (state == 1)
+		{
+			printf(RED"ERROR\n"RESET);
 			return (1);
+		}
 		i++;
 	}
 	if (state > 5)
+	{
+		printf(RED"ERROR\n"RESET);
 		return (1);
+	}
 	return (0);
 }

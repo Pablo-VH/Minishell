@@ -12,6 +12,29 @@
 
 #include "gertru.h"
 
+void	delete_hd(t_pipes *data)
+{
+	int		i;
+	int		j;
+	t_cmds	*tmp;
+
+	i = 0;
+	tmp = data->cmds;
+	while (i < data->num_cmds)
+	{
+		j = 0;
+		while (data->cmds->s_files && data->cmds->s_files->file[j])
+		{
+			if (data->cmds->s_files->flagfd[j] == 1)
+				unlink(data->cmds->s_files->file[j]);
+			j++;
+		}
+		data->cmds = data->cmds->next;
+		i++;
+	}
+	data->cmds = tmp;
+}
+
 void	wait_pids(t_pipes *data, int i)
 {
 	while (i < data->num_cmds)
@@ -88,11 +111,14 @@ void	execute(t_pipes *data)
 	stop = open_heredocs(data);
 	if (!stop)
 		open_files(data);
-	if (data->num_cmds == 1)
+	if (data->stop_exec_hd)
 	{
-		if (check_builtin(data, 0) == 1)
-			return ;
+		if (data->num_cmds == 1)
+		{
+			if (check_builtin(data, 0) == 1)
+				return ;
+		}
+		cmds_exec(data);
 	}
-	cmds_exec(data);
 	delete_hd(data);
 }

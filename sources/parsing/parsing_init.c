@@ -24,7 +24,7 @@ void	parsing_init(t_pipes *data, char *rline)
 
 	/*Aqui debera ir las funciones que inicie el control
 	de sintaxis y de expansion*/
-	if (sintax_init(data, line))
+	if (syntax_init(data, line))
 	{
 		data->pars->fdb = 0;
 		data->pars->fs = 0;

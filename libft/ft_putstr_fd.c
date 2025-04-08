@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 13:29:45 by pavicent          #+#    #+#             */
-/*   Updated: 2025/04/07 13:29:48 by pavicent         ###   ########.fr       */
+/*   Created: 2025/04/08 11:27:23 by pavicent          #+#    #+#             */
+/*   Updated: 2025/04/08 11:27:24 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gertru.h"
+#include "libft.h"
 
-char	**ft_init_env(char **str)
+void	ft_putstr_fd(char *s, int fd)
 {
-    int		len;
-    int		i;
-    char	**env;
+	size_t	i;
 
-    i = 0;
-    len = ft_array_length(str);
-    env = ft_calloc(len + 1, sizeof(char *));
-    while (i < len)
-    {
-        env[i] = ft_strdup(str[i]);
-        i++;
-    }
-    env[i] = NULL;
-    return (env);
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }

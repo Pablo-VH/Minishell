@@ -98,12 +98,12 @@ static void	write_here_doc(t_pipes *data, char *limiter, int i, int lim_len)
 			data->stop_exec_hd = 1;
 		if (ft_strncmp(line[0], limiter, lim_len) == 0 || g_exit_status == 130)
 			break ;
-		if (data->cmds->s_files->exp[i])
-			heredock_expansor(line, data);//Pendiente
+		/*if (data->cmds->s_files->exp[i])
+			heredock_expansor(line, data);//Pendiente*/
 		write(data->cmds->s_files->fd[i], line[0], ft_strlen(line[0]));
 		free(line[0]);
 	}
-	return (ft_free_array((void **)line), free(limiter));
+	return (ft_free_void_array((void **)line), free(limiter));
 }
 
 int	heredoc(t_pipes *data, int i)
@@ -113,7 +113,7 @@ int	heredoc(t_pipes *data, int i)
 	limiter = ft_strjoin_free(data->cmds->s_files->file[i], "\n");
 	open_tmp_file(data, i);
 	write_here_doc(data, limiter, i, ft_strlen(limiter));
-	close(data->cmds->s_files->file[i]);
+	close(data->cmds->s_files->fd[i]);
 	if (!data->stop_exec_hd)
 		return (infile(data, i));
 	else

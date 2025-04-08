@@ -50,13 +50,13 @@ int	check_quotes(t_pipes *data, char *line)
 }
 
 //recordar insertar funciones en el .h y el makefile
-int	sintax_init(t_pipes *data, char *line)
+int	syntax_init(t_pipes *data, char *line)
 {
 	if (line[0] == '\0')
 		return (1);
 	if (check_quotes(data, line))
 		return (1);
-	if (check_status(line))
+	if (ft_check_syntax(line))
 		return (1);
 	return (0);
 }

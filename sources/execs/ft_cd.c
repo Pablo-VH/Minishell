@@ -79,12 +79,12 @@ void	ft_cd(t_pipes *data, char **builtin)
 
 	res = 0;
 	if (ft_array_length(builtin) > 2)
-		write_n_status("minishell: cd: Too many arguments", 1);
-	if (builtin[1] && (builtin[1] != '~' || builtin[1] != '-'))
+		write_n_change_status("minishell: cd: Too many arguments", 1);
+	if (builtin[1] && (builtin[1][0] != '~' || builtin[1][0] != '-'))
 		res = chdir(builtin[1]);
-	else if ((builtin[1] && builtin[1] == '~') || !builtin[1])
+	else if ((builtin[1] && builtin[1][0] == '~') || !builtin[1])
 		res = return_home();
-	else if (builtin[1] && builtin[1] == '-')
+	else if (builtin[1] && builtin[1][0] == '-')
 	{
 		if (data->oldpwd)
 			res = chdir(data->oldpwd);

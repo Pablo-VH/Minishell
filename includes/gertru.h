@@ -126,7 +126,7 @@ void	set_node_files(t_pipes *data, char *file, int flagfd);
 
 void	reset_comand(t_pipes *data, char *comand);
 
-int		sintax_init(t_pipes *data, char *line);
+int		syntax_init(t_pipes *data, char *line);
 
 void	reset_quotes(t_pipes *data);
 
@@ -149,6 +149,9 @@ int		init_fd(t_pipes *data);
 t_cmds	*ft_lstlast(t_cmds *lst);
 
 void	ft_lstadd_back(t_cmds *slst, t_cmds *new);
+
+char	**ft_init_env(char **str);
+
 
 // list utils files
 
@@ -191,6 +194,8 @@ void	ft_cd(t_pipes *data, char **builtin);
 
 void	write_error(char *msg, char *arg);
 
+void	write_n_change_status(char *msg, int status);
+
 int		ft_exit(t_pipes *data, int in_child, char **builtin);
 
 void	ft_cd(t_pipes *data, char **builtin);
@@ -202,6 +207,13 @@ void	export(t_pipes *data);
 void	print_env(t_pipes *data);
 
 void	pipes_redirs(t_pipes *data, int i, t_cmds *list);
+
+void	get_pwd(t_pipes *data);
+
+char	*ft_find_env_var(char *envp[], char *var, int len);
+
+void	wait_pids(t_pipes *data, int i);
+
 
 //files
 int		heredoc(t_pipes *data, int i);

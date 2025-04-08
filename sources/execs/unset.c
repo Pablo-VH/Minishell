@@ -12,7 +12,7 @@
 
 #include "gertru.h"
 
-char	**ft_delete_env_var(char **env, int i)
+static char	**ft_delete_env_var(char **env, int i)
 {
 	int		len;
 	char	**res;

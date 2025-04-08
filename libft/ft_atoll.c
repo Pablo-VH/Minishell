@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-int	ft_isspace(char c)
+int	ft_isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n'
 		|| c == '\v' || c == '\f' || c == '\r');
 }
 
-int	ft_isdigit(char c)
+int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }

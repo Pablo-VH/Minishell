@@ -35,7 +35,7 @@ char	*ft_strjoin_free(const char *s1, const char *s2)
 	while (*second != 0)
 		res[i++] = *second++;
 	res[i] = '\0';
-	free(s1);
+	free((char *)s1);
 	return (res);
 }
 

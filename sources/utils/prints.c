@@ -18,6 +18,12 @@ void	write_error(char *msg, char *arg)
 	ft_putendl_fd(arg, STDERR_FILENO);
 }
 
+void	write_n_change_status(char *msg, int status)
+{
+	printf("%s", msg);
+	g_exit_status = status;
+}
+
 void	print_env(t_pipes *data)
 {
 	int	i;

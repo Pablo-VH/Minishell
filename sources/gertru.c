@@ -31,12 +31,12 @@ void	read_imput(t_pipes *data)
 		if (line != NULL)
 		{
 			parsing_init(data, line);
-			data->cmds->args = ft_split(data->cmds->cmd, " ");
-			execute(data);
+			//data->cmds->args = ft_split(data->cmds->cmd, " ");
+			//execute(data);
 			/*printf(" > %s" ,data->env[i]);
 			//printf(" > %s\n", line);
 			i++;*/
-			ft_free_all(data);
+			//ft_free_all(data);
 		}
 		add_history(line);
 	}
@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **envp)
 	t_pipes *data;
 
 	data = ft_calloc(1, sizeof(t_pipes));
+	data->pars = ft_calloc(1, sizeof(t_pars));
 	data->env = ft_init_env(envp);
 
 	if (argc == 1)

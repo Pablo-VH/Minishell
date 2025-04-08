@@ -61,6 +61,12 @@ int		ft_atoi(const char *str);
 
 char	*ft_itoa(int n);
 
+int		ft_isspace(int c);
+
+void	ft_putendl_fd(char *s, int fd);
+
+void	ft_putstr_fd(char *s, int fd);
+
 int64_t	ft_atoll(const char *str);
 
 #endif
