@@ -80,6 +80,20 @@ typedef struct s_pipes
 	t_pars *pars; // estructura de datos de parseo
 }			t_pipes;
 
+typedef enum 
+{
+	A_INI,
+	A_ERR,
+	A_DOB,
+	A_SIN,
+    A_SPA,
+	A_PRI,
+	A_PIP,
+	A_RIN,
+	A_ROU,
+	A_RIO,
+}	n_aut;
+
 
 void	read_imput(t_pipes *data);
 

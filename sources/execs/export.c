@@ -38,7 +38,7 @@ char	**ft_new_var(t_pipes *data, int pos)
 	res[i] = ft_strdup(data->cmds->args[pos]);
 	res[i + 1] = NULL;
 	ft_free_void_array((void **)data->env);
-	return(res);
+	return (res);
 }
 
 void	export_2(t_pipes *data, int i)

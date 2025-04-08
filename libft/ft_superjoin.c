@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	*ft_superjoin(const char *s1, char c ,const char *s2)
+char	*ft_superjoin(const char *s1, char c, const char *s2)
 {
 	char	*first;
 	char	*second;
@@ -33,7 +33,7 @@ char	*ft_superjoin(const char *s1, char c ,const char *s2)
 	while (*first != 0)
 		res[i++] = *first++;
 	if (c)
-		res[i++] = c; 
+		res[i++] = c;
 	while (*second != 0)
 		res[i++] = *second++;
 	res[i] = '\0';

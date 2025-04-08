@@ -38,6 +38,7 @@ static int	init_pfd(t_pipes *data)
 	}
 	return (0);
 }
+
 static int	init_pids_n_pipes(t_pipes *data)
 {
 	data->pids = malloc(sizeof(pid_t) * data->num_cmds);
@@ -74,7 +75,7 @@ static int	child_process(t_pipes *data, int i, t_cmds *tmp)
 		rl_clear_history();
 		signal(SIGQUIT, SIG_DFL);
 		pipes_redirs(data, i, tmp);
-		if (!data->cmds->stop_exec);
+		if (!data->cmds->stop_exec)
 			redir_files(data, tmp);
 		close_files(tmp);
 		if (data->cmds->stop_exec)

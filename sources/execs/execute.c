@@ -25,7 +25,7 @@ void	wait_pids(t_pipes *data, int i)
 		}
 		i++;
 	}
-	if(WIFEXITED(data->status))
+	if (WIFEXITED(data->status))
 		g_exit_status = WEXITSTATUS(data->status);
 	else if (WIFSIGNALED(data->status))
 		g_exit_status = WTERMSIG(data->status) + 128;

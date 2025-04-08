@@ -88,6 +88,6 @@ void	redir_files(t_pipes *data, t_cmds *list)
 		else if (data->cmds->s_files->flagfd[i] == N_OUTF
 			|| data->cmds->s_files->flagfd[i] == N_AOUTF)
 			duplication(data, i, STDOUT_FILENO, list);
-			i++;
+		i++;
 	}
 }

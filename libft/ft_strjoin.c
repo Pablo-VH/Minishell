@@ -39,7 +39,6 @@ char	*ft_strjoin_free(const char *s1, const char *s2)
 	return (res);
 }
 
-
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*first;
