@@ -103,14 +103,12 @@ void	count_cmds(t_pipes *data, char *line)
 			ncmds++;
 			while (line[i] != '"')
 				i++;
-			i++;
 		} else if (line[i] == '\'')
 		{
 			i++;
 			ncmds++;
 			while (line[i] != '\'')
-				i++;
-			i++;
+				i++;;
 		}else if (ft_is_token(line, i))
 		{
 			i++;
@@ -201,14 +199,12 @@ void	count_node_files(t_pipes *data, char *line, int i)
 			i++;
 			while (line[i] != '"')
 				i++;
-			i++;
 		}
 		else if (line[i] == '\'')
 		{
 			i++;
 			while (line[i] != '\'')
 				i++;
-			i++;
 		}else if (line[i] == '<' && line[i + 1] == '<')
 		{
 			nd->s_files->nfiles++;

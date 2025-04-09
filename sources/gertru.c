@@ -49,7 +49,6 @@ int main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_pipes));
 	data->pars = ft_calloc(1, sizeof(t_pars));
 	data->env = ft_init_env(envp);
-
 	if (argc == 1)
 		read_imput(data);
 	else if(argc == 2)

@@ -15,16 +15,16 @@
 int	get_state(int prev, int pos)
 {
 	const int	matrix[][8] = {
-	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_ERR, A_RIN, A_ROU}, // 0 A_INI
+	{A_ERR, A_INI, A_PRI, A_DOB, A_SIN, A_ERR, A_RIN, A_ROU}, // 0 A_INI
 	{A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR}, // 1 A_ERR
-	{A_ERR, A_INI, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB, A_DOB}, // 2 A_DOB
-	{A_ERR, A_INI, A_SIN, A_SIN, A_SIN, A_SIN, A_SIN, A_SIN}, // 3 A_SIN
-	{A_ERR, A_DOB, A_SIN, A_PRI, A_PRI, A_PIP, A_RIN, A_ROU}, // 4 A_SPA
-	{A_ERR, A_DOB, A_SIN, A_SPA, A_PRI, A_ERR, A_RIN, A_ROU}, // 5 A_PRI
-	{A_ERR, A_DOB, A_SIN, A_PIP, A_PRI, A_ERR, A_RIN, A_ROU}, // 6 A_PIP
-	{A_ERR, A_DOB, A_SIN, A_RIN, A_PRI, A_ERR, A_RIO, A_ERR}, // 7 A_RIN
-	{A_ERR, A_DOB, A_SIN, A_RIN, A_PRI, A_ERR, A_ERR, A_RIO}, // 8 A_ROU
-	{A_ERR, A_DOB, A_SIN, A_RIO, A_PRI, A_ERR, A_ERR, A_ERR}, // 9 A_RIO
+	{A_ERR, A_SPA, A_PRI, A_DOB, A_SIN, A_PIP, A_RIN, A_ROU}, // 2 A_SPA
+	{A_ERR, A_SPA, A_PRI, A_DOB, A_SIN, A_PIP, A_RIN, A_ROU}, // 3 A_PRI
+	{A_ERR, A_DOB, A_DOB, A_INI, A_DOB, A_DOB, A_DOB, A_DOB}, // 4 A_DOB
+	{A_ERR, A_SIN, A_SIN, A_SIN, A_INI, A_SIN, A_SIN, A_SIN}, // 5 A_SIN
+	{A_ERR, A_PIP, A_PRI, A_DOB, A_SIN, A_ERR, A_RIN, A_ROU}, // 6 A_PIP
+	{A_ERR, A_RIN, A_PRI, A_DOB, A_SIN, A_ERR, A_RIO, A_ERR}, // 7 A_RIN
+	{A_ERR, A_ROU, A_PRI, A_DOB, A_SIN, A_ERR, A_ERR, A_RIO}, // 8 A_ROU
+	{A_ERR, A_RIO, A_PRI, A_DOB, A_SIN, A_ERR, A_ERR, A_ERR}, // 9 A_RIO
 	};
 
 	return (matrix[prev][pos]);
@@ -35,13 +35,14 @@ int	check_state(int prev, char c)
 	int	pos;
 
 	pos = 0;
-	if (c == '"')
+	if (ft_isspace(c))
 		pos = 1;
-	else if (c == '\'')
+	else if (ft_isprint(c) && !ft_isspace(c) && c != '|' && c != '<' && c != '>'
+		&& c != '"' && c != '\'')
 		pos = 2;
-	else if (ft_isspace(c))
+	else if (c == '"')
 		pos = 3;
-	else if (ft_isprint(c) && !ft_isspace(c) && c != '|' && c != '<' && c != '>')
+	else if (c == '\'')
 		pos = 4;
 	else if (c == '|')
 		pos = 5;
@@ -69,10 +70,19 @@ int	ft_check_syntax(char *line)
 		}
 		i++;
 	}
-	if (state > 5)
+	if (state > 3)
 	{
 		printf(RED"ERROR\n"RESET);
 		return (1);
 	}
+	return (0);
+}
+
+int	syntax_init(char *line)
+{
+	if (line[0] == '\0')
+		return (1);
+	if (ft_check_syntax(line))
+		return (1);
 	return (0);
 }

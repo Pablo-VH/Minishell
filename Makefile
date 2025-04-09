@@ -43,7 +43,7 @@ SRCS :=	 $(addprefix sources/, \
 	gertru.c	\
 	$(addprefix parsing/,	\
 	parsing_init.c	tokenizer_init.c	tokenizer_utils.c\
-	tokenizer_counters.c	tokenizer_redirec.c syntax_init.c syntax_aut.c)	\
+	tokenizer_counters.c	tokenizer_redirec.c syntax_aut.c)	\
 	$(addprefix utils/,	\
 	frees_2.c	frees.c	list_utils.c length.c prints.c init_env.c)	\
 	$(addprefix execs/,	\

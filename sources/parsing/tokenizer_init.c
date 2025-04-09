@@ -28,14 +28,12 @@ void	tokenizer_init(t_pipes *data, char *line)
 			i++;
 			while (line[i] != '"')
 				i++;
-			i++;
 		}
 		else if (line[i] == '\'')
 		{
 			i++;
 			while (line[i] != '\'')
 				i++;
-			i++;
 		}else if (line[i] == '<' && line[i + 1] == '<')
 		{
 			i++;

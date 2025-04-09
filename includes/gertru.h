@@ -84,10 +84,10 @@ typedef enum s_aut
 {
 	A_INI,
 	A_ERR,
-	A_DOB,
-	A_SIN,
 	A_SPA,
 	A_PRI,
+	A_DOB,
+	A_SIN,
 	A_PIP,
 	A_RIN,
 	A_ROU,
@@ -126,7 +126,7 @@ void	set_node_files(t_pipes *data, char *file, int flagfd);
 
 void	reset_comand(t_pipes *data, char *comand);
 
-int		syntax_init(t_pipes *data, char *line);
+int		syntax_init(char *line);
 
 void	reset_quotes(t_pipes *data);
 

@@ -24,12 +24,8 @@ void	parsing_init(t_pipes *data, char *rline)
 
 	/*Aqui debera ir las funciones que inicie el control
 	de sintaxis y de expansion*/
-	if (syntax_init(data, line))
-	{
-		data->pars->fdb = 0;
-		data->pars->fs = 0;
-		return;
-	}
+	if (syntax_init(line))
+		return ;
 	/* Aqui busco si existe algun heredoc
 	para empezar a contarlos y asi
 	poder reservar memoria para su doble puntero*/
@@ -78,14 +74,14 @@ void	parsing_init(t_pipes *data, char *rline)
 		i = 0;
 	}
 
-	int j;
+	/*int j;
 	
 	j = 0;
 	while (j <= (data->npipes + 1))
 	{
 		printf("\nNum comandos: %d\n",data->pars->ncmds[j]);
 		j++;
-	}
+	}*/
 	printf("\n %d \n", data->pars->np);
 
 	free(data->pars->ncmds);
