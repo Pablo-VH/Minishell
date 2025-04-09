@@ -19,12 +19,13 @@ int	get_state(int prev, int pos)
 	{A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR, A_ERR}, // 1 A_ERR
 	{A_ERR, A_SPA, A_PRI, A_DOB, A_SIN, A_PIP, A_RIN, A_ROU}, // 2 A_SPA
 	{A_ERR, A_SPA, A_PRI, A_DOB, A_SIN, A_PIP, A_RIN, A_ROU}, // 3 A_PRI
-	{A_ERR, A_DOB, A_DOB, A_INI, A_DOB, A_DOB, A_DOB, A_DOB}, // 4 A_DOB
-	{A_ERR, A_SIN, A_SIN, A_SIN, A_INI, A_SIN, A_SIN, A_SIN}, // 5 A_SIN
+	{A_ERR, A_DOB, A_DOB, A_SPA, A_DOB, A_DOB, A_DOB, A_DOB}, // 4 A_DOB
+	{A_ERR, A_SIN, A_SIN, A_SIN, A_SPA, A_SIN, A_SIN, A_SIN}, // 5 A_SIN
 	{A_ERR, A_PIP, A_PRI, A_DOB, A_SIN, A_ERR, A_RIN, A_ROU}, // 6 A_PIP
 	{A_ERR, A_RIN, A_PRI, A_DOB, A_SIN, A_ERR, A_RIO, A_ERR}, // 7 A_RIN
 	{A_ERR, A_ROU, A_PRI, A_DOB, A_SIN, A_ERR, A_ERR, A_RIO}, // 8 A_ROU
 	{A_ERR, A_RIO, A_PRI, A_DOB, A_SIN, A_ERR, A_ERR, A_ERR}, // 9 A_RIO
+	{0}, //err space  all 	"      '	  |      <      >
 	};
 
 	return (matrix[prev][pos]);
