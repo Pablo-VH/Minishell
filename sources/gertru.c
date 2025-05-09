@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:34:28 by dgargant          #+#    #+#             */
-/*   Updated: 2025/02/07 10:51:20 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:23:08 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@ void	read_imput(t_pipes *data)
 		line = readline(PURPLE"Gertru$ "RESET);
 		if (line == NULL)
 			break;
-		if (ft_strcmp(line, "exit") == 0)
-			break;
 		if (line != NULL)
 		{
+			data->pars = ft_calloc(1, sizeof(t_pars));
 			parsing_init(data, line);
-			//data->cmds->args = ft_split(data->cmds->cmd, " ");
-			//execute(data);
-			/*printf(" > %s" ,data->env[i]);
+			free(data->pars);
+			data->pars = NULL;
+			execute(data);
+			//printf(" > %s" ,data->env[i]);
 			//printf(" > %s\n", line);
-			i++;*/
+			//i++;
 			//ft_free_all(data);
+			delete_hd(data);
+			ft_free_struct(data);
 		}
 		add_history(line);
+		free(line);
 	}
 }
 
@@ -46,13 +49,11 @@ int main(int argc, char **argv, char **envp)
 {
 	t_pipes *data;
 
+	(void)argv;
 	data = ft_calloc(1, sizeof(t_pipes));
-	data->pars = ft_calloc(1, sizeof(t_pars));
 	data->env = ft_init_env(envp);
 	if (argc == 1)
 		read_imput(data);
-	else if(argc == 2)
-		printf("%s\n", argv[1]);
 	data->nhrd = 0;
 	data->npipes = 0;
 	return (0);

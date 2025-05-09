@@ -41,14 +41,14 @@ void	open_tmp_file(t_pipes *data, int i)
 
 void	close_files(t_cmds *list)
 {
-	int	i;
+	int		i;
 	t_cmds	*tmp;
 
 	tmp = list;
 	while (list)
 	{
 		i = 0;
-		while (list->s_files && list->s_files->file[i])
+		while (list->s_files && list->s_files->file && list->s_files->file[i])
 		{
 			if (list->s_files->fd[i] > 0)
 			{

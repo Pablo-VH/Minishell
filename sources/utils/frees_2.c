@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:24:17 by pavicent          #+#    #+#             */
-/*   Updated: 2024/12/18 10:29:01 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:14:56 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,17 @@ void	free_fd(t_pipes *data)
 
 void	reset_int(t_pipes *data)
 {
-	data->mode = 0;
-	data->num_cmds = 0;;
+	//data->mode = 0;
+	data->num_cmds = 0;
 	data->nhrd = 0;
 	data->npipes = 0;
 	data->stop_exec_hd = 0;
-	data->flag = 0;
 }
 
 void	ft_free_s_files(t_files *files)
 {
 	if (files->file)
 		ft_free_void_array((void **) files->file);
-	if (files->exp)
-	{
-		free(files->exp);
-		files->exp = NULL;
-	}
 	if (files->flagfd)
 	{
 		free(files->flagfd);
@@ -71,15 +65,10 @@ void	ft_free_cmds(t_cmds *list, t_cmds *tmp)
 	while (list)
 	{
 		tmp = list;
-		if (list->args)
-			ft_free_void_array((void **)list->args);
+		if (list->cmds)
+			ft_free_void_array((void **)list->cmds);
 		if (list->s_files)
 			ft_free_s_files(list->s_files);
-		if (list->cmd)
-		{
-			free(list->cmd);
-			list->cmd = NULL;
-		}
 		list->stop_exec = 0;
 		list = list->next;
 		free(tmp);
@@ -93,8 +82,6 @@ void	ft_free_all(t_pipes *data)
 {
 	if (data->env)
 		ft_free_void_array((void **)data->env);
-	if (data->fd)
-		ft_free_void_array((void **)data->fd);
 	if (data->pwd)
 	{
 		free(data->pwd);
@@ -110,9 +97,10 @@ void	ft_free_all(t_pipes *data)
 		free(data->oldpwd);
 		data->oldpwd = NULL;
 	}
-	if (data->cmds)
+	if (data && data->cmds)
 		ft_free_cmds(data->cmds, data->cmds);
 	reset_int(data);
 	free(data);
 	data = NULL;
+	rl_clear_history();
 }

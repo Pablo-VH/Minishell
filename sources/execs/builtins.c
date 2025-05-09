@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 13:48:18 by pavicent          #+#    #+#             */
-/*   Updated: 2025/02/10 13:48:20 by pavicent         ###   ########.fr       */
+/*   Created: 2025/05/08 13:19:22 by pavicent          #+#    #+#             */
+/*   Updated: 2025/05/08 13:19:25 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "gertru.h"
 
@@ -57,28 +58,28 @@ void	ft_echo(t_pipes *data, char **builtin)
 
 int	check_builtin(t_pipes *data, int in_child)
 {
-	if (!data->cmds->args || !data->cmds->args[0])
+	if (!data->cmds->cmds || !data->cmds->cmds[0])
 		return (1);
-	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "echo"))
-		return (ft_echo(data, data->cmds->args), 1);
-	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "pwd"))
+	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "echo"))
+		return (ft_echo(data, data->cmds->cmds), 1);
+	else if (in_child >= 0 && !ft_strcmp(data->cmds->cmds[0], "pwd"))
 	{
 		if (!data->pwd)
 			data->pwd = getcwd(NULL, 0);
-		return (printf("%s\n", data->pwd));
+		return (printf("%s\n", data->pwd), 1);
 	}
-	else if (in_child == 1 && !ft_strcmp(data->cmds->args[0], "env"))
+	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "env"))
 		return (print_env(data), 1);
-	else if (!ft_strcmp(data->cmds->args[0], "cd"))
-		return (ft_cd(data, data->cmds->args), 1);
-	else if (!ft_strcmp(data->cmds->args[0], "export"))
+	else if (!ft_strcmp(data->cmds->cmds[0], "cd"))
+		return (ft_cd(data, data->cmds->cmds), 1);
+	else if (!ft_strcmp(data->cmds->cmds[0], "export"))
 		return (export(data), 1);
-	else if (!ft_strcmp(data->cmds->args[0], "unset"))
+	else if (!ft_strcmp(data->cmds->cmds[0], "unset"))
 	{
 		g_exit_status = 0;
 		return (unset(data), 1);
 	}
-	else if (!ft_strcmp(data->cmds->args[0], "exit"))
-		return (ft_exit(data, in_child, data->cmds->args));
+	else if (!ft_strcmp(data->cmds->cmds[0], "exit"))
+		return (ft_exit(data, in_child, data->cmds->cmds));
 	return (0);
 }

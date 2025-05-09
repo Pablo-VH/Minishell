@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 13:06:49 by pavicent          #+#    #+#             */
-/*   Updated: 2025/03/12 13:06:51 by pavicent         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:36:03 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_change_var(t_pipes *data, int pos_env, int pos_arg)
 	char	*tmp;
 
 	tmp = data->env[pos_env];
-	data->env[pos_env] = ft_strdup(data->cmds->args[pos_arg]);
+	data->env[pos_env] = ft_strdup(data->cmds->cmds[pos_arg]);
 	free(tmp);
 }
 
@@ -35,7 +35,7 @@ char	**ft_new_var(t_pipes *data, int pos)
 		res[i] = ft_strdup(data->env[i]);
 		i++;
 	}
-	res[i] = ft_strdup(data->cmds->args[pos]);
+	res[i] = ft_strdup(data->cmds->cmds[pos]);
 	res[i + 1] = NULL;
 	ft_free_void_array((void **)data->env);
 	return (res);
@@ -48,11 +48,11 @@ void	export_2(t_pipes *data, int i)
 
 	j = 0;
 	var = 0;
-	if (ft_strcmp(data->cmds->args[i], "export"))
+	if (ft_strcmp(data->cmds->cmds[i], "export"))
 	{
 		while (data->env[j])
 		{
-			if (!strncmp(data->cmds->args[i], data->env[j],
+			if (!strncmp(data->cmds->cmds[i], data->env[j],
 					ft_strlen(data->env[j])))
 				var = 1;
 			j++;
@@ -71,7 +71,7 @@ void	export(t_pipes *data)
 	i = 0;
 	if (!data->env)
 		return ;
-	while (data->cmds->args[i])
+	while (data->cmds->cmds[i])
 	{
 		export_2(data, i);
 		i++;

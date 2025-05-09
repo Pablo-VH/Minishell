@@ -80,7 +80,8 @@ void	redir_files(t_pipes *data, t_cmds *list)
 	int	i;
 
 	i = 0;
-	if (data->cmds && data->cmds->s_files && data->cmds->s_files->file[i])
+	
+	while (data->cmds && data->cmds->s_files && data->cmds->s_files->file && data->cmds->s_files->file[i])
 	{
 		if (data->cmds->s_files->flagfd[i] == N_INF
 			|| data->cmds->s_files->flagfd[i] == N_HRD)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 12:54:09 by pavicent          #+#    #+#             */
-/*   Updated: 2025/02/26 12:54:11 by pavicent         ###   ########.fr       */
+/*   Created: 2025/05/08 13:21:38 by pavicent          #+#    #+#             */
+/*   Updated: 2025/05/08 13:21:40 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ void	unset(t_pipes *data)
 	i = 0;
 	if (!data->env)
 		return ;
-	while (data->cmds->args[i])
+	while (data->cmds->cmds[i])
 	{
 		j = 0;
 		while (data->env[j])
 		{
-			if (ft_strcmp(data->cmds->args[i], "unset"))
+			if (ft_strcmp(data->cmds->cmds[i], "unset"))
 			{
-				len = ft_strlen(data->cmds->args[i]);
+				len = ft_strlen(data->cmds->cmds[i]);
 				while (data->env[j]
-					&& ft_strncmp(data->cmds->args[i], data->env[j], len))
+					&& ft_strncmp(data->cmds->cmds[i], data->env[j], len))
 					j++;
 				if (data->env[j])
 					data->env = ft_delete_env_var(data->env, j);

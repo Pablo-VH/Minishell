@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:40:00 by dgargant          #+#    #+#             */
-/*   Updated: 2025/03/26 12:46:56 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:10:02 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,12 @@ void	count_heredocs(t_pipes *data, char *line)
 			i++;
 			while (line[i] != '"')
 				i++;
-			i++;
 		}
 		else if (line[i] == '\'')
 		{
 			i++;
 			while (line[i] != '\'')
 				i++;
-			i++;
 		}else if (line[i] == '<' && line[i + 1] == '<')
 		{
 			data->nhrd = ++hdoc;
@@ -59,19 +57,14 @@ void	count_pipes(t_pipes *data, char *line)
 			i++;
 			while (line[i] != '"')
 				i++;
-			i++;
 		}
 		else if (line[i] == '\'')
 		{
 			i++;
 			while (line[i] != '\'')
 				i++;
-			i++;
 		}else if (line[i] == '|' )
-		{
 			data->npipes = ++npipe;
-			i++;
-		}
 		i++;
 	}
 }
@@ -108,14 +101,12 @@ void	count_cmds(t_pipes *data, char *line)
 			i++;
 			ncmds++;
 			while (line[i] != '\'')
-				i++;;
+				i++;
 		}else if (ft_is_token(line, i))
 		{
 			i++;
 			if (ft_is_token(line, i))
-			{
 				i++;
-			}
 			if (!ft_is_token(line, i))
 			{
 				while (!(line[i] >= '!' && line[i] <= 126))
@@ -126,15 +117,11 @@ void	count_cmds(t_pipes *data, char *line)
 					{
 						i++;
 						while (line[i] != '"' && line [i] != '\'')
-						{
 							i++;
-						}
 					}
 					if ((line[i] == '<' || line[i] == '>' || line[i] == '|')
 					|| !(line[i] >= '!' && line[i] <= 126))
-					{
 						break;
-					}
 					i++;
 				}
 				while (line[i] && !(line[i] >= '!' && line[i] <= 126))
@@ -169,12 +156,17 @@ void	count_cmds(t_pipes *data, char *line)
 			{
 				if ((line[i] == '<' || line[i] == '>' || line[i] == '|')
 						|| !(line[i] >= '!' && line[i] <= 126))
-						break;
+						{
+							i--;
+							break;
+						}
 				i++;
 			}
 			if (!line[i])
 				break;
 		}
+		/*if (line[i] == '|')
+			break;*/
 		i++;
 	}
 	//write(1, "hola", 4);
@@ -208,18 +200,19 @@ void	count_node_files(t_pipes *data, char *line, int i)
 		}else if (line[i] == '<' && line[i + 1] == '<')
 		{
 			nd->s_files->nfiles++;
-			i+= 2;
+			i+= 1;
 		}	
 		else if (line[i] == '>' && line[i + 1] == '>')
 		{
 			nd->s_files->nfiles++;
-			i+=2;
+			i+= 1;
 		}
 		else if (line[i] == '<' || line[i] == '>')
 			nd->s_files->nfiles++;
-		i++;
+		if (line[i])
+			i++;
 	}
-	if (nd->s_files->nfiles > 0)
+	if (nd->s_files->nfiles >= 0)
 	{
 		nd->s_files->file = ft_calloc(nd->s_files->nfiles + 1, sizeof(char *));
 		nd->s_files->flagfd = ft_calloc(nd->s_files->nfiles + 1, sizeof(int));

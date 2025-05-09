@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 10:34:29 by pavicent          #+#    #+#             */
-/*   Updated: 2025/03/10 10:34:33 by pavicent         ###   ########.fr       */
+/*   Created: 2025/05/08 13:19:52 by pavicent          #+#    #+#             */
+/*   Updated: 2025/05/08 13:19:57 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ void	executor(t_pipes *data, t_cmds *tmp)
 		ft_free_all(data);
 		exit(EXIT_FAILURE);
 	}
-	if (data->cmds->args[0] == NULL)
+	if (data->cmds->cmds[0] == NULL || data->cmds->cmds[0][0] == '\0')
 		path = NULL;
-	else if (data->cmds->args[0][0] != '.' && data->cmds->args[0][0] != '/')
-		path = get_path(data->cmds->args[0], data->env);
+	else if (data->cmds->cmds[0][0] != '.' && data->cmds->cmds[0][0] != '/')
+		path = get_path(data->cmds->cmds[0], data->env);
 	else
 	{
-		if (access(data->cmds->args[0], F_OK) == 0)
-			path = data->cmds->args[0];
+		if (access(data->cmds->cmds[0], F_OK) == 0)
+			path = data->cmds->cmds[0];
 	}
 	if (path != NULL && access(path, X_OK) == 0)
-		execve(path, data->cmds->args, data->env);
+		execve(path, data->cmds->cmds, data->env);
 	else
 	{
 		data->cmds = tmp;

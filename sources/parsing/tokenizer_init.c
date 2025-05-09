@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -17,50 +18,60 @@
 y la tokenizara llamando a otras funciones*/
 void	tokenizer_init(t_pipes *data, char *line)
 {
-	int i;
-
-	i = take_fist_token(data, line);
-	//printf("\n<< %d >>", i);
-	while (line[i])
+	data->pars->i = 0;
+	data->pars->np2 = 0;
+	data->pars->c_cmd = 0;
+	take_fist_token(data, line);
+	while (line[data->pars->i])
 	{
-		if (line[i] == '"')
+		if (line[data->pars->i] == '"')
+			take_quote(data, line, '"');
+		else if (line[data->pars->i] == '\'')
+			take_quote(data, line, '\'');
+		else if (line[data->pars->i] == '<' && line[data->pars->i + 1] == '<')
 		{
-			i++;
-			while (line[i] != '"')
-				i++;
+			data->pars->i++;
+			take_hdelimiter(data, line);
+		} else if (line[data->pars->i] == '>' && line[data->pars->i + 1] == '>')
+		{
+			data->pars->i++;
+			take_tfile(data, line, N_AOUTF);
 		}
-		else if (line[i] == '\'')
+		else if (line[data->pars->i] == '<')
+			take_tfile(data, line, N_INF);
+		else if (line[data->pars->i] == '>')
+			take_tfile(data, line, N_OUTF);
+		else if (line[data->pars->i] == '|')
+			take_pipes(data, line);
+		else if (line[data->pars->i] >= '!' && line[data->pars->i] <= 126)
 		{
-			i++;
-			while (line[i] != '\'')
-				i++;
-		}else if (line[i] == '<' && line[i + 1] == '<')
-		{
-			i++;
-			take_hdelimiter(data, line,(i + 1));
-		} else if (line[i] == '>' && line[i + 1] == '>')
-		{
-			i++;
-			take_tfile(data, line, N_AOUTF, i + 1);
-		}else if (line[i] == '<')
-			take_tfile(data, line, N_INF, i + 1);
-		else if (line[i] == '>')
-			take_tfile(data, line, N_OUTF, i + 1);
-		else if (line[i] == '|')
-			take_pipes(data, line, i + 1);
-		else if (line[i] >= '!' && line[i] <= 126)
-		{
-			reset_comand(data, take_cmd(line, i));
-			while (line)
+			insert_cmds(data,take_cmd(data,line, data->pars->i));
+			while (line[data->pars->i])
 			{
-				if (!line[i] || ft_is_token(line, i) || line[i] == '|'
-				|| !(line[i] >= '!' && line[i] <= 126))
+				if (!line[data->pars->i] || ft_is_token(line, data->pars->i) || line[data->pars->i] == '|'
+				|| !(line[data->pars->i] >= '!' && line[data->pars->i] <= 126))
+				{
+					data->pars->i--;
 					break;
-				i++;
+				}
+				data->pars->i++;
 			}
-			
 		}
-		i++;
+		if (line[data->pars->i])
+			data->pars->i++;
 	}
 }
 
+void	take_quote(t_pipes *data, char *line, char c)
+{
+	int j;
+	char *cmd;
+
+	data->pars->i++;
+	j = data->pars->i;
+	while (line[j] != c)
+		j++;
+	cmd = ft_substr(line, data->pars->i, (j - data->pars->i));
+	data->pars->i = j;
+	insert_cmds(data, cmd);
+}

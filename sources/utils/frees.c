@@ -3,18 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 13:47:10 by pavicent          #+#    #+#             */
-/*   Updated: 2025/02/07 08:53:25 by dgargant         ###   ########.fr       */
+/*   Created: 2025/05/08 13:22:25 by pavicent          #+#    #+#             */
+/*   Updated: 2025/05/08 13:22:27 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gertru.h"
 
+void	free_lists(t_cmds *lst)
+{
+	t_cmds	*tmp;
+
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		if (tmp)
+		{
+			if (tmp->s_files)
+				ft_free_s_files(tmp->s_files);
+			if (tmp->cmds)
+				ft_free_void_array((void **)tmp->cmds);
+		}
+		free(tmp);
+		tmp = NULL;
+	}
+}
+
 void	ft_free_struct(t_pipes *data)
 {
-	int	i;
+	/*int	i;
 
 	i = 0;
 	if (data->fd)
@@ -25,20 +45,25 @@ void	ft_free_struct(t_pipes *data)
 			i++;
 		}
 		free(data->fd);
-	}
+	}*/
 	/*if (data->mode == 3)
 	{
 		if (access(data->cmds->file, F_OK) == 0)
 			unlink(data->cmds->file);
 	}*/
 	if (data->pids)
+	{
 		free(data->pids);
-	free_fd(data);
+		data->pids = NULL;
+	}
+	///free_fd(data);
 	if (data->cmds)
+	{
 		free_lists(data->cmds);
-	//if (data->limiters)
-	//	free(data->limiters);
-	free(data);
+		data->cmds = NULL;
+	}
+	reset_int(data);
+	//free(data);
 }
 
 void	ft_free_tab(char **tab)
@@ -53,36 +78,3 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 }
-
-void	free_lists(t_cmds *lst)
-{
-	t_cmds	*tmp;
-
-	while (lst)
-	{
-		tmp = lst;
-		lst = lst->next;
-		if (tmp)
-		{
-			/*if (tmp->file)
-				free(tmp->file);*/
-			if (tmp->cmd)
-				free(tmp->cmd);
-		}
-		free(tmp);
-	}
-}
-
-/*void	close_files(t_cmds *list)
-{
-	t_cmds	*tmp;
-
-	tmp = list;
-	while (list)
-	{
-		if (list->fd > 0)
-			close(list->fd);
-		list = list->next;
-	}
-	list = tmp;
-}*/

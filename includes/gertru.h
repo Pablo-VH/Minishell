@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:51:48 by dgargant          #+#    #+#             */
-/*   Updated: 2025/02/07 09:48:46 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:13:13 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,12 @@ typedef struct s_files
 	int		*flagfd; // tipo de redireccion/ejecuciones (done)
 	int		*fd; // fd del documento (pav)
 	int		nfiles; // numero de ficheros en el nodo  (done)
-	int		*exp;
 }			t_files;
 
 typedef struct s_cmds
 {
-	char			*cmd; // puntero del comando (done)
+	char			**cmds; // doble puntero de los comandos
 	t_files			*s_files; // estructura ficheros del nodo (done)
-	char			**args;
 	int				stop_exec;
 	struct s_cmds	*next;
 }			t_cmds;
@@ -58,7 +56,10 @@ typedef struct s_pars
 	int		fs; //flag comillas simples
 	int		count; //contador
 	int		np;
-	int		*ncmds;
+	int		np2;
+	int		i; // contador de posicion en la tiena de tokenizado
+	int		c_cmd; // contador del puntero de ncmds
+	int		*ncmds; //puntero con el numero de comandos de cada nodo
 }			t_pars;
 
 typedef struct s_pipes
@@ -74,8 +75,6 @@ typedef struct s_pipes
 	char	*oldpwd;
 	int		stop_exec_hd;
 	int		status;
-	//int		nfiles; // numero de archivos
-	int		flag;
 	t_cmds	*cmds; // lista de comandos
 	t_pars	*pars; // estructura de datos de parseo
 }			t_pipes;
@@ -94,51 +93,61 @@ typedef enum s_aut
 	A_RIO,
 }	t_aut;
 
-void	read_imput(t_pipes *data);
+char	*expand_init(t_pipes *data, char *line);
 
-void	parsing_init(t_pipes *data, char *line);
+char	*insert_expansion(char *line, char * var, char *exp, int i);
 
-void	tokenizer_init(t_pipes *data, char *line);
+char	*search_in_env(t_pipes *data, char *v_search);
 
-int		init_fd(t_pipes *data);
+char	*take_cmd(t_pipes *data,char *line ,int i);
 
-int		init_pid(t_pipes **data);
+char	*take_v(char *line, int i);
 
-void	take_hdelimiter(t_pipes *data, char *line, int i);
-
-void	take_tfile(t_pipes *data, char *line, int flagfd, int i);
-
-void	count_heredocs(t_pipes *data, char *line);
-
-void	count_pipes(t_pipes *data, char *line);
-
-void	count_node_files(t_pipes *data, char *line, int i);
-
-char	*take_cmd(char *line, int i);
-
-void	take_token(t_pipes *data, char *comand);
-
-int		take_fist_token(t_pipes *data, char *line);
-
-void	take_pipes(t_pipes *data, char *line, int i);
-
-void	set_node_files(t_pipes *data, char *file, int flagfd);
-
-void	reset_comand(t_pipes *data, char *comand);
-
-int		syntax_init(char *line);
-
-void	reset_quotes(t_pipes *data);
-
-void	count_cmds(t_pipes *data, char *line);
-
-int		ft_is_token(char *line, int i);
+int		check_state(int prev, char c);
 
 int		ft_check_syntax(char *line);
 
-//int	is_piped(char *line, int i);
+int		ft_is_token(char *line, int i);
 
-//List Utils
+int		get_state(int prev, int pos);
+
+int		syntax_init(char *line);
+
+void	count_cmds(t_pipes *data, char *line);
+
+void	count_heredocs(t_pipes *data, char *line);
+
+void	count_node_files(t_pipes *data, char *line, int i);
+
+void	count_pipes(t_pipes *data, char *line);
+
+void	delete_some_quotes(t_pipes *data, char *line, char *new_line, int i);
+
+void	insert_cmds(t_pipes *data, char *comand);
+
+void	parsing_init(t_pipes *data, char *line);
+
+void	read_imput(t_pipes *data);
+
+void	set_node_files(t_pipes *data, char *file, int flagfd);
+
+void	take_fist_token(t_pipes *data, char *line);
+
+void	take_hdelimiter(t_pipes *data, char *line);
+
+void	take_pipes(t_pipes *data, char *line);
+
+void	take_quote(t_pipes *data, char *line, char c);
+
+void	take_tfile(t_pipes *data, char *line, int flagfd);
+
+void	take_token(t_pipes *data);
+
+void	tokenizer_init(t_pipes *data, char *line);
+
+//Utils
+
+char	**ft_init_env(char **str);
 
 int		ft_array_length(char **str);
 
@@ -150,7 +159,6 @@ t_cmds	*ft_lstlast(t_cmds *lst);
 
 void	ft_lstadd_back(t_cmds *slst, t_cmds *new);
 
-char	**ft_init_env(char **str);
 
 
 // list utils files
@@ -163,7 +171,7 @@ t_files	*file_lstnew(int flagfd);*/
 
 //t_cmds	*ft_lstnew(int flagfd, char *cmd, char *file);
 
-t_cmds	*ft_lstnew(char *cmd);
+t_cmds	*ft_lstnew(void);
 
 //Frees
 
@@ -173,8 +181,6 @@ void	ft_free_struct(t_pipes *data);
 
 void	ft_free_tab(char **tab);
 
-void	free_lists(t_cmds *lst);
-
 void	close_files(t_cmds *list);
 
 void	close_pipes(t_pipes *data, int i);
@@ -183,7 +189,13 @@ void	redir_files(t_pipes *data, t_cmds *list);
 
 void	ft_free_all(t_pipes *data);
 
+void	reset_int(t_pipes *data);
+
+void	ft_free_s_files(t_files *files);
+
 //execs
+char	*ft_find_env_var(char *envp[], char *var, int len);
+
 int		check_builtin(t_pipes *data, int in_child);
 
 void	execute(t_pipes *data);
@@ -195,8 +207,6 @@ void	ft_cd(t_pipes *data, char **builtin);
 void	write_error(char *msg, char *arg);
 
 void	write_n_change_status(char *msg, int status);
-
-int		ft_exit(t_pipes *data, int in_child, char **builtin);
 
 void	ft_cd(t_pipes *data, char **builtin);
 
@@ -210,9 +220,9 @@ void	pipes_redirs(t_pipes *data, int i, t_cmds *list);
 
 void	get_pwd(t_pipes *data);
 
-char	*ft_find_env_var(char *envp[], char *var, int len);
-
 void	wait_pids(t_pipes *data, int i);
+
+int		ft_exit(t_pipes *data, int in_child, char **builtin);
 
 
 //files
@@ -231,5 +241,7 @@ int		infile(t_pipes *data, int i);
 void	cmds_exec(t_pipes *data);
 
 void	executor(t_pipes *data, t_cmds *tmp);
+
+void	delete_hd(t_pipes *data);
 
 #endif

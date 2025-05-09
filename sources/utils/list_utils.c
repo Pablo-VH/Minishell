@@ -6,7 +6,7 @@
 /*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 12:00:05 by dgargant          #+#    #+#             */
-/*   Updated: 2025/02/06 09:13:47 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:08:27 by dgargant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_lstadd_back(t_cmds *lst, t_cmds *new)
 
 
 // crea un nodo de la lista
-t_cmds	*ft_lstnew(char *cmd)
+t_cmds	*ft_lstnew(void)
 {
 	t_cmds	*new_cmd;
 
@@ -90,7 +90,7 @@ t_cmds	*ft_lstnew(char *cmd)
 	if (new_cmd == NULL)
 		return (NULL);
 	new_cmd->s_files = ft_calloc(1, sizeof(t_files));
-	new_cmd->cmd = cmd;
+	new_cmd->cmds = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
