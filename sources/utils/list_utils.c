@@ -91,6 +91,7 @@ t_cmds	*ft_lstnew(void)
 		return (NULL);
 	new_cmd->s_files = ft_calloc(1, sizeof(t_files));
 	new_cmd->cmds = NULL;
+	new_cmd->stop_exec = 0;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }

@@ -79,44 +79,9 @@ void	insert_cmds(t_pipes *data, char *comand)
 // no hay que recoger las comillas
 void take_fist_token(t_pipes *data ,char *line)
 {
-	//int i;
-	//int j;
-	//char *comand;
-	
-	//i = 0;
-	//comand = NULL;
 	count_cmds(data, line);
-	// es posible que pueda cambiar esta parte por take_cmd()
-	/*while (line[i] && !(line[i] >= '!' && line[i] <= 126))
-		i++;
-	j = i;
-	while(line[j])
-	{
-		if (line[j] == '"')
-		{
-			j++;
-			while (line[j] != '"')
-				j++;
-		}
-		else if (line[j] == '\'')
-		{
-			j++;
-			while (line[j] != '\'')
-				j++;
-		}else if (line[j] == '<' || line[j] == '>' || line[j] == '|')
-			break;
-		if  (!(line[j] >= '!' && line[j] <= 126))
-			break;
-		j++;
-	}
-	comand = ft_substr(line, i, (j - i));*/
-	//printf("\n<<< %s >>>\n", comand);
 	take_token(data);
-	//insert_cmds(data, comand);
 	count_node_files(data, line, data->pars->i);
-	/*if ((comand[0] == '\0'))
-		return (j);
-	return(j);*/
 }
 
 

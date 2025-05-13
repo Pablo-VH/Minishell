@@ -193,6 +193,12 @@ void	reset_int(t_pipes *data);
 
 void	ft_free_s_files(t_files *files);
 
+void	ft_free_pids(pid_t **pids);
+
+void	ft_free_lst(t_pipes *data);
+
+void	ft_free_struct2(t_pipes *data);
+
 //execs
 char	*ft_find_env_var(char *envp[], char *var, int len);
 

@@ -80,7 +80,7 @@ static int	child_process(t_pipes *data, int i, t_cmds *tmp)
 		close_files(tmp);
 		if (data->cmds->stop_exec)
 		{
-			ft_free_all(data);
+			ft_free_struct2(data);
 			exit(1);
 		}
 		executor(data, tmp);
@@ -109,4 +109,5 @@ void	cmds_exec(t_pipes *data)
 	close_pipes(data, 0);
 	close_files(data->cmds);
 	wait_pids(data, 0);
+	ft_free_pids(&data->pids);
 }

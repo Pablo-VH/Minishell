@@ -71,7 +71,7 @@ void	executor(t_pipes *data, t_cmds *tmp)
 
 	if (check_builtin(data, 1))
 	{
-		ft_free_all(data);
+		ft_free_struct2(data);
 		exit(EXIT_FAILURE);
 	}
 	if (data->cmds->cmds[0] == NULL || data->cmds->cmds[0][0] == '\0')
@@ -89,7 +89,7 @@ void	executor(t_pipes *data, t_cmds *tmp)
 	{
 		data->cmds = tmp;
 		perror("minishell: command not found");
-		ft_free_all(data);
+		ft_free_struct2(data);
 		exit(EXIT_FAILURE);
 	}
 }

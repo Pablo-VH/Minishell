@@ -167,7 +167,8 @@ void	count_cmds(t_pipes *data, char *line)
 		}
 		/*if (line[i] == '|')
 			break;*/
-		i++;
+		if (line[i])
+			i++;
 	}
 	//write(1, "hola", 4);
 	data->pars->count = i;

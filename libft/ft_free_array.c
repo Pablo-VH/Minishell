@@ -21,7 +21,8 @@ void	ft_free_void_array(void **array)
 	{
 		while (array[i])
 		{
-			free(array[i]);
+			if (array[i])
+				free(array[i]);
 			array[i] = NULL;
 			i++;
 		}

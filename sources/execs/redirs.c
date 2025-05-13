@@ -37,7 +37,7 @@ void	pipes_redirs(t_pipes *data, int i, t_cmds *list)
 			perror("dup2 failed");
 			close_pipes(data, 0);
 			close_files(list);
-			ft_free_struct(data);
+			ft_free_struct2(data);
 			exit(1);
 		}
 	}
@@ -48,7 +48,7 @@ void	pipes_redirs(t_pipes *data, int i, t_cmds *list)
 			perror("dup2 failed");
 			close_pipes(data, 0);
 			close_files(list);
-			ft_free_struct(data);
+			ft_free_struct2(data);
 			exit(1);
 		}
 	}
@@ -61,14 +61,14 @@ void	duplication(t_pipes *data, int i, int std, t_cmds *list)
 	{
 		perror("bad fd");
 		close_files(list);
-		ft_free_struct(data);
+		ft_free_struct2(data);
 		exit(1);
 	}
 	if (dup2(data->cmds->s_files->fd[i], std) == -1)
 	{
 		perror("dup2 failed");
 		close_files(list);
-		ft_free_struct(data);
+		ft_free_struct2(data);
 		exit(1);
 	}
 	close(data->cmds->s_files->fd[i]);
@@ -80,8 +80,8 @@ void	redir_files(t_pipes *data, t_cmds *list)
 	int	i;
 
 	i = 0;
-	
-	while (data->cmds && data->cmds->s_files && data->cmds->s_files->file && data->cmds->s_files->file[i])
+	while (data->cmds && data->cmds->s_files && data->cmds->s_files->file
+		&& data->cmds->s_files->file[i])
 	{
 		if (data->cmds->s_files->flagfd[i] == N_INF
 			|| data->cmds->s_files->flagfd[i] == N_HRD)

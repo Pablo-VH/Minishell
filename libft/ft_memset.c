@@ -14,12 +14,15 @@
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	unsigned char	*p;
+	size_t	i;
 
-	p = b;
-	while (len-- > 0)
-		*p++ = (unsigned char)c;
-	return (b);
+	i = 0;
+	while (i < len)
+	{
+		*((char *)b + i) = (unsigned char)c;
+		i++;
+	}
+	return ((void *)b);
 }
 
 /*int main(void)

@@ -62,7 +62,7 @@ int	check_builtin(t_pipes *data, int in_child)
 		return (1);
 	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "echo"))
 		return (ft_echo(data, data->cmds->cmds), 1);
-	else if (in_child >= 0 && !ft_strcmp(data->cmds->cmds[0], "pwd"))
+	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "pwd"))
 	{
 		if (!data->pwd)
 			data->pwd = getcwd(NULL, 0);

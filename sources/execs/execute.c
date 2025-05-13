@@ -115,7 +115,6 @@ void	execute(t_pipes *data)
 		open_files(data);
 	if (!data->stop_exec_hd)
 	{
-		printf("check numcmds: %d\n", data->num_cmds);
 		if (data->num_cmds == 1)
 		{
 			if (check_builtin(data, 0) == 1)

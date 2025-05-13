@@ -87,11 +87,7 @@ void	ft_free_all(t_pipes *data)
 		free(data->pwd);
 		data->pwd = NULL;
 	}
-	if (data->pids)
-	{
-		free(data->pids);
-		data->pids = NULL;
-	}
+	ft_free_pids(&data->pids);
 	if (data->oldpwd)
 	{
 		free(data->oldpwd);
@@ -104,3 +100,58 @@ void	ft_free_all(t_pipes *data)
 	data = NULL;
 	rl_clear_history();
 }
+
+void	free_lists(t_cmds *lst)
+{
+	t_cmds	*tmp;
+
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		if (tmp)
+		{
+			if (tmp->s_files)
+				ft_free_s_files(tmp->s_files);
+			if (tmp->cmds)
+				ft_free_void_array((void **)tmp->cmds);
+		}
+		free(tmp);
+		tmp = NULL;
+	}
+}
+
+void	ft_free_struct2(t_pipes *data)
+{
+	/*int	i;
+
+	i = 0;
+	if (data->fd)
+	{
+		while (data->fd[i])
+		{
+			free(data->fd[i]);
+			i++;
+		}
+		free(data->fd);
+	}*/
+	/*if (data->mode == 3)
+	{
+		if (access(data->cmds->file, F_OK) == 0)
+			unlink(data->cmds->file);
+	}*/
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
+	///free_fd(data);
+	if (data->cmds)
+	{
+		free_lists(data->cmds);
+		data->cmds = NULL;
+	}
+	reset_int(data);
+	//free(data);
+}
+

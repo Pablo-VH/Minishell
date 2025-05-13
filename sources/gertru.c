@@ -38,7 +38,8 @@ void	read_imput(t_pipes *data)
 			//i++;
 			//ft_free_all(data);
 			delete_hd(data);
-			ft_free_struct(data);
+			ft_free_struct2(data);
+			//ft_free_lst(data);
 		}
 		add_history(line);
 		free(line);
@@ -47,9 +48,10 @@ void	read_imput(t_pipes *data)
 
 int main(int argc, char **argv, char **envp)
 {
-	t_pipes *data;
+	t_pipes	*data;
 
 	(void)argv;
+	//ft_memset(&data, 0, sizeof(t_pipes));
 	data = ft_calloc(1, sizeof(t_pipes));
 	data->env = ft_init_env(envp);
 	if (argc == 1)
