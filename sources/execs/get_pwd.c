@@ -39,6 +39,7 @@ void	get_pwd(t_pipes *data)
 			free(data->oldpwd);
 		data->oldpwd = ft_strdup(data->pwd);
 		free(data->pwd);
+		data->pwd = NULL;
 	}
 	data->pwd = getcwd(NULL, 0);
 	if (!data->oldpwd)

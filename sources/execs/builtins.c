@@ -66,6 +66,8 @@ int	check_builtin(t_pipes *data, int in_child)
 	{
 		if (!data->pwd)
 			data->pwd = getcwd(NULL, 0);
+		if (!data->pwd)
+			return(printf("%s\n", data->oldpwd), 1);
 		return (printf("%s\n", data->pwd), 1);
 	}
 	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "env"))

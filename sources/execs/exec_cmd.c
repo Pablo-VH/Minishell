@@ -69,6 +69,7 @@ void	executor(t_pipes *data, t_cmds *tmp)
 {
 	char	*path;
 
+	path = NULL;
 	if (check_builtin(data, 1))
 	{
 		ft_free_struct2(data);

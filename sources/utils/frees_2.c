@@ -96,7 +96,7 @@ void	ft_free_all(t_pipes *data)
 	if (data && data->cmds)
 		ft_free_cmds(data->cmds, data->cmds);
 	reset_int(data);
-	free(data);
+//	free(data);
 	data = NULL;
 	rl_clear_history();
 }

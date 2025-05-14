@@ -9,87 +9,68 @@
 #    Updated: 2025/05/07 10:02:14 by dgargant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-NAME = minishell
+NAME        = minishell
+CC          = cc
 
-CC  = gcc
+CFLAGS      = -Wall -Wextra -Werror -g3 -I$(INC) -I$(LIBFT_DIR)inc/
+LDFLAGS     = -L$(LIBFT_DIR) -lft
 
-HEADERS:= -I ./includes
-#CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3 $(HEADERS)
+INC         = inc/
 
-CFLAGS = -Wall -Werror -Wextra -g3 $(HEADERS)
-#valgrind --leak-check=full --show-leak-kinds=all
-#CFLAGS = -Wall -Werror -Wextra $(HEADERS)
-#valgrind --trace-children=yes --track-fds=yes --leak-check=full
-#valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all
-# valgrind --track-fds=yes --trace-children=yes --leak-check=full
-# --show-leak-kinds=all ./pipex README.md ls ls salida.txt
-GPATH = libft
+LIBFT_DIR   = libft/
+LIBFT       = $(LIBFT_DIR)libft.a
 
-LIBFT_PATH = $(GPATH)/libft.a
+OBJS_DIR    = objs/
 
-OBJS_DIR = objs/
 # Colores
-RED =           \033[0;31m
-GREEN =         \033[0;92m
-CYAN =          \033[0;96m
-BLUE=           \033[0;34m
-PURPLE=         \033[0;95m
-YELLOW =        \033[0;93m
-RESET=          \033[0m
+RED         = \033[0;31m
+GREEN       = \033[0;92m
+CYAN        = \033[0;96m
+BLUE        = \033[0;34m
+PURPLE      = \033[0;95m
+YELLOW      = \033[0;93m
+RESET       = \033[0m
+BOLD_CYAN   = \033[1;96m
 
-SRCS :=  $(addprefix sources/, \
-    gertru.c    \
-    $(addprefix parsing/,   \
-    parsing_init.c  tokenizer_init.c    tokenizer_utils.c\
-    tokenizer_counters.c    tokenizer_redirec.c syntax_aut.c\
-    expand_init.c   move_quotes.c)  \
-    $(addprefix utils/, \
-    frees_2.c   frees.c list_utils.c length.c prints.c init_env.c)  \
-    $(addprefix execs/, \
-    execute.c builtins.c ft_cd.c ft_exit.c executor_cmds.c \
-    exec_cmd.c redirs.c unset.c get_pwd.c export.c) \
-    $(addprefix files/, \
-    admin_files.c utils_files.c))
+SRCS_DIR    = sources/
 
-OBJS = $(SRCS:%.c=$(OBJS_DIR)%.o)
+SRCS_FILES := \
+	gertru.c \
+	$(addprefix parsing/, parsing_init.c tokenizer_init.c tokenizer_utils.c tokenizer_counters.c tokenizer_redirec.c syntax_aut.c expand_init.c move_quotes.c) \
+	$(addprefix utils/, frees_2.c frees.c list_utils.c length.c prints.c init_env.c) \
+	$(addprefix execs/, execute.c builtins.c ft_cd.c ft_exit.c executor_cmds.c exec_cmd.c redirs.c unset.c get_pwd.c export.c) \
+	$(addprefix files/, admin_files.c utils_files.c)
 
-$(NAME): $(OBJS)
-	@make _libft $(LIBFT_PATH)
-	@make print_title
-	@echo "$(GREEN)Creando ejecutable"
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_PATH) -o $(NAME) -lreadline
-	@echo "Ejecutable Creado$(RESET)"
+OBJS_FILES  = $(SRCS_FILES:.c=.o)
 
-$(OBJS_DIR)%.o: %.c | $(OBJS_DIR)
+SRCS        = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
+OBJS        = $(addprefix $(OBJS_DIR), $(OBJS_FILES))
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
+	@echo "Compiling $(BLUE)$(NAME)$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	@echo "\n$(GREEN)$(NAME) compiled!$(RESET)"
+	@echo "$(BOLD_CYAN)\n------------\n| Done! 👌 |\n------------$(RESET)"
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
-
-all: _libft $(NAME)
-
-print_title:
-	echo "$(PURPLE) ██████╗ ███████╗██████╗ ████████╗██████╗ ██╗   ██╗"
-	echo "██╔════╝ ██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██║   ██║"
-	echo "██║  ███╗█████╗  ██████╔╝   ██║   ██████╔╝██║   ██║"
-	echo "██║   ██║██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║"
-	echo "╚██████╔╝███████╗██║  ██║   ██║   ██║  ██║╚██████╔╝"
-	echo " ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚╝ ╚═════╝ $(RESET)"
+$(LIBFT):
+	@echo "Compiling $(BLUE)libft$(RESET)\n"
+	@make -sC $(LIBFT_DIR)
 
 clean:
 	rm -rf $(OBJS_DIR)
-	@make clean -C $(GPATH)
+	make fclean -sC $(LIBFT_DIR)
 
 fclean: clean
 	rm -f $(NAME)
-	@make fclean -C $(GPATH)
+	@echo "$(GREEN)$(NAME)$(YELLOW) cleaned$(RESET)"
 
 re: fclean all
 
-_libft:
-	@make -C $(GPATH)
-
-.PHONY: all clean fclean re print_title
-
-.SILENT: print_title
+.PHONY: all clean fclean re
+.SILENT: all clean fclean
