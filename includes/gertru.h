@@ -13,15 +13,52 @@
 #ifndef GERTRU_H
 # define GERTRU_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
+
 # include "../libft/libft.h"
+
+// for printf, readline, perror
+# include <stdio.h>
+// for strerror
+# include <string.h>
+// for malloc, free, exit, getenv
+# include <stdlib.h>
+// for write, access, close, read, getcwd, chdir,
+// unlink, execve, dup, dup2, pipe, isatty, ttyname, ttyslot
+# include <unistd.h>
+// stat, lstat, fstat
+# include <sys/stat.h>
+// for read, wait3, wait4
+# include <sys/types.h>
+// for read
+# include <sys/uio.h>
+// for open
 # include <fcntl.h>
+// for signal, sigaction, kill
+# include <signal.h>
+// for fork, kill
+# include <sys/types.h>
+// for waitpid, wait, waitpid, wait3, wait4
 # include <sys/wait.h>
+// for wait3, wait4
+# include <sys/time.h>
+// for wait3, wait4
+# include <sys/resource.h>
+// for readline, rl_on_new_line, rl_redisplay, add_history
+# include <readline/readline.h> /* rl_clear_history, rl_redisplay ? */
+// for readline, rl_on_new_line, rl_redisplay, add_history
+# include <readline/history.h> /* rl_clear_history, rl_redisplay ? */
+// for opendir, readdir, closedir
+# include <dirent.h>
+// for ioctl
+# include <sys/ioctl.h>
+// for tcsetattr, tcgetattr
+# include <termios.h>
+// for tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <curses.h>
+// for tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <term.h>
+// for errno
+# include <errno.h>
 # define RED "\001\033[0;31m\002"
 # define GREEN "\001\033[0;32m\002"
 # define PURPLE "\001\033[0;95m\002"
@@ -179,7 +216,7 @@ void	free_fd(t_pipes *data);
 
 void	ft_free_struct(t_pipes *data);
 
-void	ft_free_tab(char **tab);
+void	ft_free_tab(char **str);
 
 void	close_files(t_cmds *list);
 

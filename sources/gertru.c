@@ -48,16 +48,17 @@ void	read_imput(t_pipes *data)
 
 int main(int argc, char **argv, char **envp)
 {
-	t_pipes	*data;
+	t_pipes	data;
 
 	(void)argv;
-	//ft_memset(&data, 0, sizeof(t_pipes));
-	data = ft_calloc(1, sizeof(t_pipes));
-	data->env = ft_init_env(envp);
+	ft_memset(&data, 0, sizeof(t_pipes));
+	//data = ft_calloc(1, sizeof(t_pipes));
+	get_pwd(&data);
+	data.env = ft_init_env(envp);
 	if (argc == 1)
-		read_imput(data);
-	data->nhrd = 0;
-	data->npipes = 0;
+		read_imput(&data);
+	data.nhrd = 0;
+	data.npipes = 0;
 	return (0);
 }
 

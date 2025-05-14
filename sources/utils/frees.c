@@ -73,17 +73,17 @@ void	ft_free_struct(t_pipes *data)
 	ft_free_pids(&data->pids);
 }
 
-void	ft_free_tab(char **tab)
+void	ft_free_tab(char **str)
 {
 	size_t	i;
 
 	i = 0;
-	while (tab[i])
+	while (str[i])
 	{
-		free(tab[i]);
+		free(str[i]);
 		i++;
 	}
-	free(tab);
+	free(str);
 }
 
 void	ft_free_pids(pid_t **pids)
