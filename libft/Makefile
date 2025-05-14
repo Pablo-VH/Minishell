@@ -46,7 +46,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 
 clean:
 	@$(RM) $(OBJS_DIR)
-	@echo "$(GREEN)libft$(YELLOW) cleaned\n$(DEF_COLOR)"
+	@echo "$(GREEN)libft$(YELLOW) cleaned$(DEF_COLOR)\n"
 
 fclean: clean
 	@$(RM) $(NAME)
