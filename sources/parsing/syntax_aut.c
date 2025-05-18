@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_aut.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
+/*   By: pavicent <pavicent@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:10:37 by pavicent          #+#    #+#             */
-/*   Updated: 2025/04/08 10:10:39 by pavicent         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:33:11 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ int	ft_check_syntax(char *line)
 		state = check_state(state, line[i]);
 		if (state == 1)
 		{
-			printf(RED"ERROR\n"RESET);
+			printf(RED"syntax error near unexpected token\n"RESET);
 			return (1);
 		}
 		i++;
 	}
 	if (state > 3)
 	{
-		printf(RED"ERROR\n"RESET);
+		printf(RED"syntax error near unexpected token\n"RESET);
 		return (1);
 	}
 	return (0);

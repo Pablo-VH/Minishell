@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pavicent <pavicent@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:39:05 by dgargant          #+#    #+#             */
-/*   Updated: 2025/05/05 11:06:04 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:46:08 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*expand_init(t_pipes *data, char *line)
 		//		i++;
 		//	//data->pars->fs = 0;
 		//}else 
-		if (line[i] == '$' && (data->pars->fs == 0) && line[i + 1] != '?')
+		if (line[i] == '$' && (data->pars->fs == 0))
 		{
 			var = take_v(line, i);
 			//printf("variable sin expandir: %s\n", var);
@@ -71,8 +71,6 @@ char	*expand_init(t_pipes *data, char *line)
 			line = NULL;
 			line = new_line;
 		}
-		else if (line[i] == '$' && line[i + 1] == '?' && line[i + 2] == '\0')
-			printf("%d\n", g_exit_status);
 		if (line[i])
 			i++;
 	}
@@ -107,10 +105,14 @@ char	*search_in_env(t_pipes *data, char *v_search)
 	size_t	v_length;
 
 	i = 0;
-	if (data->env == NULL)
+	if (data->env == NULL || v_search == NULL)
 		return (NULL);
-	if (v_search == NULL)
-		return (NULL);
+	if (!ft_strcmp(v_search, "?"))
+	{
+		i = g_exit_status | i;
+		printf("g_exit_status: %d\n m: %d\n", g_exit_status, i);
+		return (ft_itoa(i));
+	}
 	path = NULL;
 	v_length = ft_strlen(v_search);
 	while (data->env[i])

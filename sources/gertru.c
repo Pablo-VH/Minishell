@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gertru.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pavicent <pavicent@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:34:28 by dgargant          #+#    #+#             */
-/*   Updated: 2025/05/08 13:23:08 by pavicent         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:11:02 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	read_imput(t_pipes *data)
 	
 	while (1)
 	{
+		signal(SIGINT, handler);
 		line = readline(PURPLE"Gertru$ "RESET);
 		if (line == NULL)
 			break;
@@ -33,13 +34,8 @@ void	read_imput(t_pipes *data)
 			free(data->pars);
 			data->pars = NULL;
 			execute(data);
-			//printf(" > %s" ,data->env[i]);
-			//printf(" > %s\n", line);
-			//i++;
-			//ft_free_all(data);
 			delete_hd(data);
 			ft_free_struct2(data);
-			//ft_free_lst(data);
 		}
 		add_history(line);
 		free(line);

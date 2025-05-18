@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gertru.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pavicent <pavicent@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:51:48 by dgargant          #+#    #+#             */
-/*   Updated: 2025/05/07 10:13:13 by dgargant         ###   ########.fr       */
+/*   Updated: 2025/05/18 23:11:43 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ typedef enum s_aut
 	A_ROU,
 	A_RIO,
 }	t_aut;
+
+void	handler(int signal);
 
 char	*expand_init(t_pipes *data, char *line);
 

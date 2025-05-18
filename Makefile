@@ -3,13 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgargant <dgargant@student.42.fr>          +#+  +:+       +#+         #
+#    By: pavicent <pavicent@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/27 10:13:27 by dgargant          #+#    #+#              #
-#    Updated: 2025/05/07 10:02:14 by dgargant         ###   ########.fr        #
+#    Updated: 2025/05/18 23:14:58 by pavicent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-NAME        = minishell
+
+NAME	   = minishell
+
 CC          = cc
 
 CFLAGS      = -Wall -Wextra -Werror -g3 -I$(INC) -I$(LIBFT_DIR)inc/
@@ -35,7 +37,7 @@ BOLD_CYAN   = \033[1;96m
 SRCS_DIR    = sources/
 
 SRCS_FILES := \
-	gertru.c \
+	gertru.c signals.c \
 	$(addprefix parsing/, parsing_init.c tokenizer_init.c tokenizer_utils.c tokenizer_counters.c tokenizer_redirec.c syntax_aut.c expand_init.c move_quotes.c) \
 	$(addprefix utils/, frees_2.c frees.c list_utils.c length.c prints.c init_env.c) \
 	$(addprefix execs/, execute.c builtins.c ft_cd.c ft_exit.c executor_cmds.c exec_cmd.c redirs.c unset.c get_pwd.c export.c) \
