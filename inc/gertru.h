@@ -89,14 +89,17 @@ typedef struct s_cmds
 
 typedef struct s_pars
 {
+	char	c;
 	int		fdb; //flag comillas dobles
 	int		fs; //flag comillas simples
 	int		count; //contador
 	int		np;
 	int		np2;
+	int		count_f;
 	int		i; // contador de posicion en la tiena de tokenizado
 	int		c_cmd; // contador del puntero de ncmds
 	int		*ncmds; //puntero con el numero de comandos de cada nodo
+	int		*nfiles;
 }			t_pars;
 
 typedef struct s_pipes
@@ -129,6 +132,20 @@ typedef enum s_aut
 	A_ROU,
 	A_RIO,
 }	t_aut;
+
+typedef enum s_tok
+{
+	T_INI,
+	T_ERR,
+	T_SPA,
+	T_PRI,
+	T_DOB,
+	T_SIN,
+	T_PIP,
+	T_RIN,
+	T_ROU,
+	T_COM,
+}	t_tok;
 
 void	handler(int signal);
 
@@ -166,23 +183,29 @@ void	insert_cmds(t_pipes *data, char *comand);
 
 void	parsing_init(t_pipes *data, char *line);
 
-void	read_imput(t_pipes *data);
+void	read_input(t_pipes *data);
 
 void	set_node_files(t_pipes *data, char *file, int flagfd);
 
-void	take_fist_token(t_pipes *data, char *line);
+void	take_first_token(t_pipes *data, char *line);
 
 void	take_hdelimiter(t_pipes *data, char *line);
 
 void	take_pipes(t_pipes *data, char *line);
 
-void	take_quote(t_pipes *data, char *line, char c);
+void	take_quote(t_pipes *data, char *line, char c, int mode);
 
 void	take_tfile(t_pipes *data, char *line, int flagfd);
 
 void	take_token(t_pipes *data);
 
 void	tokenizer_init(t_pipes *data, char *line);
+
+void	token_count_files(t_pipes *data, char *line);
+
+void	token_count_cmds(t_pipes *data, char *line);
+
+char	*take_quote2(t_pipes *data, char *line, char *cmd, int j);
 
 //Utils
 

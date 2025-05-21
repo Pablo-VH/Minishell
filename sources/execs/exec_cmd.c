@@ -88,9 +88,9 @@ void	executor(t_pipes *data, t_cmds *tmp)
 		execve(path, data->cmds->cmds, data->env);
 	else
 	{
+		write_error("minishell: command not found: ", data->cmds->cmds[0]);
 		data->cmds = tmp;
-		perror("minishell: command not found");
 		ft_free_struct2(data);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }

@@ -47,7 +47,6 @@ char	*take_cmd(t_pipes *data,char *line ,int i)
 		cmd = ft_substr(line, i, (j - i));
 	else
 		cmd = NULL;
-	
 	return (cmd);
 }
 
@@ -77,11 +76,12 @@ void	insert_cmds(t_pipes *data, char *comand)
 // recoge el primer comando
 // hay que recoger el comando teniendo en cuenta comillas
 // no hay que recoger las comillas
-void take_fist_token(t_pipes *data ,char *line)
+void take_first_token(t_pipes *data ,char *line)
 {
-	count_cmds(data, line);
+	token_count_cmds(data, line);
 	take_token(data);
-	count_node_files(data, line, data->pars->i);
+	token_count_files(data, line);
+	//count_cmds(data, line);
 }
 
 
@@ -111,10 +111,11 @@ void	set_node_files(t_pipes *data, char *file, int flagfd)
 	t_cmds *current;
 	
 	i = 0;
-	current = ft_lstlast(data->cmds);
+	current = data->cmds;
+	current = ft_lstlast(current);
 	while (i < current->s_files->nfiles)
 	{
-		if (!current->s_files->file[i] 
+		if (!current->s_files->file[i]
 			&& !current->s_files->flagfd[i])
 		{
 			current->s_files->file[i] = file;
@@ -126,3 +127,4 @@ void	set_node_files(t_pipes *data, char *file, int flagfd)
 	}
 }
 
+//current->s_files && current->s_files->file && 

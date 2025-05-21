@@ -37,8 +37,8 @@ BOLD_CYAN   = \033[1;96m
 SRCS_DIR    = sources/
 
 SRCS_FILES := \
-	gertru.c signals.c \
-	$(addprefix parsing/, parsing_init.c tokenizer_init.c tokenizer_utils.c tokenizer_counters.c tokenizer_redirec.c syntax_aut.c expand_init.c move_quotes.c) \
+	gertru.c signals.c read_input.c\
+	$(addprefix parsing/, parsing_init.c tokenizer_init.c tokenizer_utils.c tokenizer_counters.c tokenizer_redirec.c syntax_aut.c expand_init.c move_quotes.c aut_token_count.c) \
 	$(addprefix utils/, frees_2.c frees.c list_utils.c length.c prints.c init_env.c) \
 	$(addprefix execs/, execute.c builtins.c ft_cd.c ft_exit.c executor_cmds.c exec_cmd.c redirs.c unset.c get_pwd.c export.c) \
 	$(addprefix files/, admin_files.c utils_files.c)

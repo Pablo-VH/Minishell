@@ -14,64 +14,141 @@
 #include "gertru.h"
 
 
+void	take_pr(t_pipes *data, char *line, int mode)
+{
+	int	j;
+	int	ini;
+	char	*cmd;
+	char	*tmp;
+
+	j = data->pars->i;
+	while (ft_isspace(line[j]))
+		j++;
+	ini = j;
+	while (line[j] && ft_isprint(line[j]) && !ft_isspace(line[j]) && line[j] != '|'
+		&& line[j] != '<' && line[j] != '>' && line[j] != '"' && line[j] != '\'')
+	{
+		j++;
+	}
+	data->pars->i = j;
+	cmd = ft_substr(line, ini, (j - ini));
+	if (line[j] && (line[j] == '"' || line[j] == '\''))
+	{
+		data->pars->c = line[j];
+		tmp = cmd;
+		cmd = take_quote2(data, line, cmd, j);
+	}
+	if (mode == N_NF)
+		insert_cmds(data, cmd);
+	else
+		set_node_files(data, cmd, mode);
+}
+
+void set_files(t_pipes*data, char *line, int mode)
+{
+	data->pars->i++;
+	if (line[data->pars->i] == '"' || line[data->pars->i] == '\'')
+		take_quote(data, line, line[data->pars->i], mode);
+	else
+		take_pr(data, line, mode);
+}
+
 /* Esto sera una funcion que recorrera la linea
 y la tokenizara llamando a otras funciones*/
 void	tokenizer_init(t_pipes *data, char *line)
 {
-	data->pars->i = 0;
-	data->pars->np2 = 0;
-	data->pars->c_cmd = 0;
-	take_fist_token(data, line);
+	take_first_token(data, line);
 	while (line[data->pars->i])
 	{
-		if (line[data->pars->i] == '"')
-			take_quote(data, line, '"');
-		else if (line[data->pars->i] == '\'')
-			take_quote(data, line, '\'');
+		if (line[data->pars->i] == '"' || line[data->pars->i] == '\'')
+			take_quote(data, line, line[data->pars->i], N_NF);
 		else if (line[data->pars->i] == '<' && line[data->pars->i + 1] == '<')
 		{
 			data->pars->i++;
-			take_hdelimiter(data, line);
-		} else if (line[data->pars->i] == '>' && line[data->pars->i + 1] == '>')
+			set_files(data, line, N_HRD);
+			//take_hdelimiter(data, line);
+		}
+		else if (line[data->pars->i] == '>' && line[data->pars->i + 1] == '>')
 		{
 			data->pars->i++;
-			take_tfile(data, line, N_AOUTF);
+			set_files(data, line, N_AOUTF);
+			//take_tfile(data, line, N_AOUTF);
 		}
 		else if (line[data->pars->i] == '<')
-			take_tfile(data, line, N_INF);
+			set_files(data, line, N_INF);
 		else if (line[data->pars->i] == '>')
-			take_tfile(data, line, N_OUTF);
+			set_files(data, line, N_OUTF);
 		else if (line[data->pars->i] == '|')
 			take_pipes(data, line);
-		else if (line[data->pars->i] >= '!' && line[data->pars->i] <= 126)
-		{
-			insert_cmds(data,take_cmd(data,line, data->pars->i));
-			while (line[data->pars->i])
-			{
-				if (!line[data->pars->i] || ft_is_token(line, data->pars->i) || line[data->pars->i] == '|'
-				|| !(line[data->pars->i] >= '!' && line[data->pars->i] <= 126))
-				{
-					data->pars->i--;
-					break;
-				}
-				data->pars->i++;
-			}
-		}
+		else if (ft_isprint(line[data->pars->i]))
+			take_pr(data, line, N_NF);
 		if (line[data->pars->i])
 			data->pars->i++;
 	}
 }
 
-void	take_quote(t_pipes *data, char *line, char c)
+char	*take_quote2(t_pipes *data, char *line, char *cmd, int j)
 {
-	int j;
-	char *cmd;
+	char	*cmd2;
+	int		ini;
+
+	ini = j;
+	if (data->pars->c == '"' || data->pars->c == '\'')
+	{
+		printf(" ''' line[j]:%c\n", line[j]);
+		ini = ++j;
+		while (line[j] && line[j] != data->pars->c)
+			j++;
+	}
+	else
+	{
+		printf("line[j]:%c\n", line[j]);
+		while (line[j] && ft_isprint(line[j]) && !ft_isspace(line[j]) && line[j] != '|' && line[j] != '<' && line[j] != '>'
+			&& line[j] != '"' && line[j] != '\'')
+			j++;
+	}
+	cmd2 = ft_substr(line, ini, (j - ini));
+	cmd = ft_strjoin_free2(cmd, cmd2);
+	if (line[j] == '"' || line[j] == '\'')
+		j++;
+	data->pars->i = j - 1;
+	if ((line[j] == '\'' || line[j] == '"') || (ft_isprint(line[j]) 
+		&& !ft_isspace(line[j]) && line[j] != '|' && line[j] != '<' && line[j] != '>'))
+	{
+		data->pars->c = line[j];
+		cmd = take_quote2(data, line, cmd, j);
+	}
+	return (cmd);
+}
+
+void	take_quote(t_pipes *data, char *line, char c, int mode)
+{
+	int 	j;
+	char	*cmd;
+	int		ini;
+	char	*cmd2;
 
 	data->pars->i++;
 	j = data->pars->i;
-	while (line[j] != c)
+	while (line [j] && line[j] != c)
 		j++;
 	cmd = ft_substr(line, data->pars->i, (j - data->pars->i));
-	data->pars->i = j;
-	insert_cmds(data, cmd);
+	if (line[j])
+		j++;
+	ini = j;
+	while (line[j] && ft_isprint(line[j]) && !ft_isspace(line[j]) && line[j] != '|' && line[j] != '<' && line[j] != '>'
+		&& line[j] != '"' && line[j] != '\'')
+		j++;
+	data->pars->i = j - 1;
+	cmd2 = ft_substr(line, ini, (j - ini));
+	cmd = ft_strjoin_free2(cmd, cmd2);
+	if (line[j] == '\'' || line[j] == '"')
+	{
+		data->pars->c = line[j];
+		cmd = take_quote2(data, line, cmd, j);
+	}
+	if (mode == N_NF)
+		insert_cmds(data, cmd);
+	else
+		set_node_files(data, cmd, mode);
 }

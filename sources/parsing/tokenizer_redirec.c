@@ -19,11 +19,13 @@ void	take_pipes(t_pipes *data, char *line)
 	
 	i = data->pars->i + 1;
 	data->pars->count = i;
-	count_cmds(data, line);
+	token_count_cmds(data, line);
+	//count_cmds(data, line);
 	take_token(data);
 	data->pars->np2 = 0;
 	data->pars->c_cmd++;
-	count_node_files(data, line, i);
+	token_count_files(data, line);
+	//count_node_files(data, line, i);
 }
 
 // retocar para cosas especificas a futuro

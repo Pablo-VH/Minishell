@@ -113,6 +113,7 @@ void	execute(t_pipes *data)
 	stop = open_heredocs(data);
 	if (!stop)
 		open_files(data);
+	
 	if (!data->stop_exec_hd)
 	{
 		if (data->num_cmds == 1)

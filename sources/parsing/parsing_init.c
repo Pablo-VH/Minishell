@@ -35,6 +35,7 @@ void	parsing_init(t_pipes *data, char *rline)
 	
 	line = ft_strdup(rline);
 	data->pars->c_cmd = 0;
+	data->pars->count_f = 0;
 	/*Aqui debera ir las funciones que inicie el control
 	de sintaxis y de expansion*/
 	if (syntax_init(line))

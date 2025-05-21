@@ -67,6 +67,7 @@ int	ft_check_syntax(char *line)
 		if (state == 1)
 		{
 			printf(RED"syntax error near unexpected token\n"RESET);
+			g_exit_status = 2;
 			return (1);
 		}
 		i++;
@@ -74,6 +75,7 @@ int	ft_check_syntax(char *line)
 	if (state > 3)
 	{
 		printf(RED"syntax error near unexpected token\n"RESET);
+		g_exit_status = 2;
 		return (1);
 	}
 	return (0);

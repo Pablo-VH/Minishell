@@ -45,6 +45,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 
 char	*ft_strjoin_free(const char *s1, const char *s2);
 
+char	*ft_strjoin_free2(const char *s1, const char *s2);
+
 char	*ft_superjoin(const char *s1, char c, const char *s2);
 
 char	**ft_split(char const *s, char c);

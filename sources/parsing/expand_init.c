@@ -109,9 +109,8 @@ char	*search_in_env(t_pipes *data, char *v_search)
 		return (NULL);
 	if (!ft_strcmp(v_search, "?"))
 	{
-		i = g_exit_status | i;
-		printf("g_exit_status: %d\n m: %d\n", g_exit_status, i);
-		return (ft_itoa(i));
+		//i = g_exit_status | i;
+		return (ft_itoa((int)g_exit_status));
 	}
 	path = NULL;
 	v_length = ft_strlen(v_search);

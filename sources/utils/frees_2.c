@@ -43,17 +43,24 @@ void	reset_int(t_pipes *data)
 
 void	ft_free_s_files(t_files *files)
 {
+	int	i;
+
+	i = 0;
+	if (files->fd)
+	{
+		while (i < files->nfiles && files->fd[i] > 0)
+			close(files->fd[i++]);
+		free(files->fd);
+		files->fd = NULL;
+	}
 	if (files->file)
+	{
 		ft_free_void_array((void **) files->file);
+	}
 	if (files->flagfd)
 	{
 		free(files->flagfd);
 		files->flagfd = NULL;
-	}
-	if (files->fd)
-	{
-		free(files->fd);
-		files->fd = NULL;
 	}
 	files->nfiles = 0;
 	free(files);

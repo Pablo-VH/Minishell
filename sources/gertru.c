@@ -16,45 +16,20 @@
 y llama al resto de funciones principales*/
 unsigned char	g_exit_status = 0;
 
-void	read_imput(t_pipes *data)
-{
-	char *line = NULL;
-	//int i = 0;
-	
-	while (1)
-	{
-		signal(SIGINT, handler);
-		line = readline(PURPLE"Gertru$ "RESET);
-		if (line == NULL)
-			break;
-		if (line != NULL)
-		{
-			data->pars = ft_calloc(1, sizeof(t_pars));
-			parsing_init(data, line);
-			free(data->pars);
-			data->pars = NULL;
-			execute(data);
-			delete_hd(data);
-			ft_free_struct2(data);
-		}
-		add_history(line);
-		free(line);
-	}
-}
-
 int main(int argc, char **argv, char **envp)
 {
 	t_pipes	data;
 
 	(void)argv;
+	signal(SIGQUIT, SIG_IGN);
 	ft_memset(&data, 0, sizeof(t_pipes));
 	//data = ft_calloc(1, sizeof(t_pipes));
 	get_pwd(&data);
 	data.env = ft_init_env(envp);
 	if (argc == 1)
-		read_imput(&data);
-	data.nhrd = 0;
-	data.npipes = 0;
+		read_input(&data);
+	//data.nhrd = 0;
+	//data.npipes = 0;
 	return (0);
 }
 

@@ -17,7 +17,7 @@ static int	check_cmds(char **builtin)
 	int	i;
 
 	i = 0;
-	while (builtin[i])
+	while (builtin && builtin[i])
 	{
 		if (i == 1)
 		{
@@ -45,7 +45,7 @@ int	ft_exit(t_pipes *data, int in_child, char **builtin)
 	if (!in_child)
 		printf("exit\n");
 	exit_status = check_cmds(builtin);
-	if (!exit_status && builtin[1])
+	if (!exit_status && builtin && builtin[1])
 		exit_status = ft_atoi(builtin[1]);
 	else if (exit_status == 0)
 		exit_status = g_exit_status;

@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isprint(int c)
+int	ft_isprint(char c)
 {
-	return (c >= 32 && c <= 126);
+	if ((c >= 32 && c <= 126) 
+		|| ((unsigned char)c>= 128 && (unsigned char)c <= 254))
+		return (1);
+	else
+		return (0);
 }
