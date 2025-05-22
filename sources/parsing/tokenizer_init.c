@@ -30,7 +30,7 @@ void	take_pr(t_pipes *data, char *line, int mode)
 	{
 		j++;
 	}
-	data->pars->i = j;
+	data->pars->i = j - 1;
 	cmd = ft_substr(line, ini, (j - ini));
 	if (line[j] && (line[j] == '"' || line[j] == '\''))
 	{
@@ -38,6 +38,8 @@ void	take_pr(t_pipes *data, char *line, int mode)
 		tmp = cmd;
 		cmd = take_quote2(data, line, cmd, j);
 	}
+	//data->pars->i = j;
+	//printf("line[j]: pr %c\n", line[j]);
 	if (mode == N_NF)
 		insert_cmds(data, cmd);
 	else
@@ -60,28 +62,31 @@ void	tokenizer_init(t_pipes *data, char *line)
 	take_first_token(data, line);
 	while (line[data->pars->i])
 	{
+		while(ft_isspace(line[data->pars->i]))
+			data->pars->i++;
 		if (line[data->pars->i] == '"' || line[data->pars->i] == '\'')
 			take_quote(data, line, line[data->pars->i], N_NF);
-		else if (line[data->pars->i] == '<' && line[data->pars->i + 1] == '<')
+		else if (line[data->pars->i] == '<' && data->pars->i >= 1 && line[data->pars->i - 1] == '<')
 		{
-			data->pars->i++;
 			set_files(data, line, N_HRD);
+			///data->pars->i++;
 			//take_hdelimiter(data, line);
 		}
-		else if (line[data->pars->i] == '>' && line[data->pars->i + 1] == '>')
+		else if (line[data->pars->i] == '>' && data->pars->i >= 1 && line[data->pars->i - 1] == '>')
 		{
-			data->pars->i++;
+			//data->pars->i++;
 			set_files(data, line, N_AOUTF);
 			//take_tfile(data, line, N_AOUTF);
 		}
-		else if (line[data->pars->i] == '<')
+		else if (line[data->pars->i] == '<' && line[data->pars->i + 1] != '<')
 			set_files(data, line, N_INF);
-		else if (line[data->pars->i] == '>')
+		else if (line[data->pars->i] == '>' && line[data->pars->i + 1] != '>')
 			set_files(data, line, N_OUTF);
-		else if (line[data->pars->i] == '|')
-			take_pipes(data, line);
-		else if (ft_isprint(line[data->pars->i]))
+		else if (ft_isprint(line[data->pars->i]) && !ft_isspace(line[data->pars->i]) && line[data->pars->i] != '|' && line[data->pars->i] != '<' && line[data->pars->i] != '>'
+			&& line[data->pars->i] != '"' && line[data->pars->i] != '\'')
 			take_pr(data, line, N_NF);
+		if (line[data->pars->i] == '|')
+			take_pipes(data, line);
 		if (line[data->pars->i])
 			data->pars->i++;
 	}
@@ -95,23 +100,22 @@ char	*take_quote2(t_pipes *data, char *line, char *cmd, int j)
 	ini = j;
 	if (data->pars->c == '"' || data->pars->c == '\'')
 	{
-		printf(" ''' line[j]:%c\n", line[j]);
 		ini = ++j;
 		while (line[j] && line[j] != data->pars->c)
 			j++;
+		cmd2 = ft_substr(line, ini, (j - ini));
+		data->pars->i = j;
+		j++;
 	}
 	else
 	{
-		printf("line[j]:%c\n", line[j]);
 		while (line[j] && ft_isprint(line[j]) && !ft_isspace(line[j]) && line[j] != '|' && line[j] != '<' && line[j] != '>'
 			&& line[j] != '"' && line[j] != '\'')
 			j++;
+		data->pars->i = j;
+		cmd2 = ft_substr(line, ini, (j - ini));
 	}
-	cmd2 = ft_substr(line, ini, (j - ini));
 	cmd = ft_strjoin_free2(cmd, cmd2);
-	if (line[j] == '"' || line[j] == '\'')
-		j++;
-	data->pars->i = j - 1;
 	if ((line[j] == '\'' || line[j] == '"') || (ft_isprint(line[j]) 
 		&& !ft_isspace(line[j]) && line[j] != '|' && line[j] != '<' && line[j] != '>'))
 	{

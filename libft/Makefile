@@ -10,7 +10,7 @@ SRCS_FILES = ft_strcmp.c ft_calloc.c ft_bzero.c ft_memset.c ft_strdup.c ft_strle
 			 ft_strnstr.c ft_substr.c ft_free_array.c ft_isalnum.c ft_isalpha.c \
 			 ft_isdigit.c ft_isprint.c ft_strjoin.c ft_superjoin.c ft_split.c \
 			 ft_atoi.c ft_atoll.c ft_itoa.c ft_strncmp.c ft_isspace.c \
-			 ft_putstr_fd.c ft_putendl_fd.c
+			 ft_putstr_fd.c ft_putendl_fd.c ft_strchr.c
 
 SRCS_DIR	= srcs/
 OBJS_DIR	= objs/

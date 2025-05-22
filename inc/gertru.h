@@ -213,6 +213,8 @@ char	**ft_init_env(char **str);
 
 int		ft_array_length(char **str);
 
+int		ft_lgth(const char *s1, const char *s2);
+
 int		init_pid(t_pipes **data);
 
 int		init_fd(t_pipes *data);

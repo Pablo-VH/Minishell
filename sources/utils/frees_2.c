@@ -48,8 +48,12 @@ void	ft_free_s_files(t_files *files)
 	i = 0;
 	if (files->fd)
 	{
-		while (i < files->nfiles && files->fd[i] > 0)
-			close(files->fd[i++]);
+		while (i < files->nfiles)
+		{
+			if (files->fd[i] > 0)
+				close(files->fd[i]);
+			i++;
+		}
 		free(files->fd);
 		files->fd = NULL;
 	}

@@ -18,10 +18,10 @@ int	ft_isspace(int c)
 		|| c == '\v' || c == '\f' || c == '\r');
 }
 
-int	ft_isdigit(int c)
+/*int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
-}
+}*/
 
 int64_t	ft_atoll(const char *str)
 {

@@ -57,7 +57,9 @@ int		ft_isalpha(int c);
 
 int		ft_isdigit(int c);
 
-int		ft_isprint(int c);
+int		ft_isprint(char c);
+
+char	*ft_strchr(const char *s, int c);
 
 int		ft_atoi(const char *str);
 
