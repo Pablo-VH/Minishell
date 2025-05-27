@@ -23,7 +23,8 @@ void	delete_hd(t_pipes *data)
 	while (i < data->num_cmds)
 	{
 		j = 0;
-		while (data->cmds->s_files && data->cmds->s_files->file && data->cmds->s_files->file[j])
+		while (data->cmds->s_files && data->cmds->s_files->file
+			&& data->cmds->s_files->file[j])
 		{
 			if (data->cmds->s_files->flagfd[j] == N_HRD
 				&& access(data->cmds->s_files->file[j], F_OK) == 0)
@@ -66,7 +67,8 @@ static void	open_files(t_pipes *data)
 	{
 		stop = 0;
 		i = 0;
-		while (data->cmds->s_files && data->cmds->s_files->file && data->cmds->s_files->file[i] && stop == 0)
+		while (data->cmds->s_files && data->cmds->s_files->file
+			&& data->cmds->s_files->file[i] && stop == 0)
 		{
 			if (data->cmds->s_files->flagfd[i] == N_INF)
 				stop = infile(data, i);
@@ -113,7 +115,6 @@ void	execute(t_pipes *data)
 	stop = open_heredocs(data);
 	if (!stop)
 		open_files(data);
-	
 	if (!data->stop_exec_hd)
 	{
 		if (data->num_cmds == 1)

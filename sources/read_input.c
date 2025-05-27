@@ -14,14 +14,13 @@
 
 void	read_input(t_pipes *data)
 {
-	char *line = NULL;
-	//int i = 0;
-	
+	char	*line;
+
+	line = NULL;
 	while (1)
 	{
 		signal(SIGINT, handler);
 		line = readline(PURPLE"Gertru$ "RESET);
-
 		if (line == NULL)
 			ft_exit(data, 0, NULL);
 		if (line != NULL)

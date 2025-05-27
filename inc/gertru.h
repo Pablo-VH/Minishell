@@ -13,7 +13,6 @@
 #ifndef GERTRU_H
 # define GERTRU_H
 
-
 # include "libft.h"
 
 // for printf, readline, perror
@@ -68,6 +67,7 @@
 # define N_OUTF 1 // es outfile
 # define N_HRD 2 // es heredoc
 # define N_AOUTF 3 // es outfile en modo apend
+# define E_MSG "minishell: command not found: "
 
 extern unsigned char	g_exit_status;
 
@@ -90,6 +90,12 @@ typedef struct s_cmds
 typedef struct s_pars
 {
 	char	c;
+	int		ei;
+	int		j;
+	int		k;
+	int		l;
+	size_t	new_len;
+	char	*new_line;
 	int		fdb; //flag comillas dobles
 	int		fs; //flag comillas simples
 	int		count; //contador
@@ -98,6 +104,8 @@ typedef struct s_pars
 	int		count_f;
 	int		i; // contador de posicion en la tiena de tokenizado
 	int		c_cmd; // contador del puntero de ncmds
+	int		p_exp;
+	int		h_doc;
 	int		*ncmds; //puntero con el numero de comandos de cada nodo
 	int		*nfiles;
 }			t_pars;
@@ -115,6 +123,8 @@ typedef struct s_pipes
 	char	*oldpwd;
 	int		stop_exec_hd;
 	int		status;
+	char	*path;
+	t_cmds	*tmp;
 	t_cmds	*cmds; // lista de comandos
 	t_pars	*pars; // estructura de datos de parseo
 }			t_pipes;
@@ -151,13 +161,13 @@ void	handler(int signal);
 
 char	*expand_init(t_pipes *data, char *line);
 
-char	*insert_expansion(char *line, char * var, char *exp, int i);
+char	*insert_expansion(t_pipes *data, char *line, char *var, char *exp);
 
 char	*search_in_env(t_pipes *data, char *v_search);
 
-char	*take_cmd(t_pipes *data,char *line ,int i);
+char	*take_cmd(t_pipes *data, char *line, int i);
 
-char	*take_v(char *line, int i);
+char	*take_v(t_pipes *data, char *line, int i);
 
 int		check_state(int prev, char c);
 
@@ -205,6 +215,12 @@ void	token_count_files(t_pipes *data, char *line);
 
 void	token_count_cmds(t_pipes *data, char *line);
 
+void	take_quote(t_pipes *data, char *line, char c, int mode);
+
+void	take_pr(t_pipes *data, char *line, int mode);
+
+void	set_files(t_pipes*data, char *line, int mode);
+
 char	*take_quote2(t_pipes *data, char *line, char *cmd, int j);
 
 //Utils
@@ -222,8 +238,6 @@ int		init_fd(t_pipes *data);
 t_cmds	*ft_lstlast(t_cmds *lst);
 
 void	ft_lstadd_back(t_cmds *slst, t_cmds *new);
-
-
 
 // list utils files
 
@@ -293,7 +307,6 @@ void	get_pwd(t_pipes *data);
 void	wait_pids(t_pipes *data, int i);
 
 int		ft_exit(t_pipes *data, int in_child, char **builtin);
-
 
 //files
 int		heredoc(t_pipes *data, int i);

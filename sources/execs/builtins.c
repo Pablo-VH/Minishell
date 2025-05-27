@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "gertru.h"
 
 int	check_echo_flag(char *str, int *flag)
@@ -56,6 +55,20 @@ void	ft_echo(t_pipes *data, char **builtin)
 		printf("\n");
 }
 
+int	check_builtin2(t_pipes *data, int in_child)
+{
+	if (!ft_strcmp(data->cmds->cmds[0], "export"))
+		return (export(data), 1);
+	else if (!ft_strcmp(data->cmds->cmds[0], "unset"))
+	{
+		g_exit_status = 0;
+		return (unset(data), 1);
+	}
+	else if (!ft_strcmp(data->cmds->cmds[0], "exit"))
+		return (ft_exit(data, in_child, data->cmds->cmds));
+	return (0);
+}
+
 int	check_builtin(t_pipes *data, int in_child)
 {
 	if (!data->cmds->cmds || !data->cmds->cmds[0])
@@ -67,21 +80,14 @@ int	check_builtin(t_pipes *data, int in_child)
 		if (!data->pwd)
 			data->pwd = getcwd(NULL, 0);
 		if (!data->pwd)
-			return(printf("%s\n", data->oldpwd), 1);
+			return (printf("%s\n", data->oldpwd), 1);
 		return (printf("%s\n", data->pwd), 1);
 	}
 	else if (in_child == 1 && !ft_strcmp(data->cmds->cmds[0], "env"))
 		return (print_env(data), 1);
 	else if (!ft_strcmp(data->cmds->cmds[0], "cd"))
 		return (ft_cd(data, data->cmds->cmds), 1);
-	else if (!ft_strcmp(data->cmds->cmds[0], "export"))
-		return (export(data), 1);
-	else if (!ft_strcmp(data->cmds->cmds[0], "unset"))
-	{
-		g_exit_status = 0;
-		return (unset(data), 1);
-	}
-	else if (!ft_strcmp(data->cmds->cmds[0], "exit"))
-		return (ft_exit(data, in_child, data->cmds->cmds));
+	else
+		return (check_builtin2(data, in_child));
 	return (0);
 }

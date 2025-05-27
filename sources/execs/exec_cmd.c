@@ -67,32 +67,27 @@ char	*get_path(char	*cmd, char **env)
 
 void	executor(t_pipes *data, t_cmds *tmp)
 {
-	char	*path;
-
-	path = NULL;
 	if (check_builtin(data, 1))
 	{
 		ft_free_struct2(data);
 		exit(EXIT_FAILURE);
 	}
 	if (data->cmds->cmds[0] == NULL || data->cmds->cmds[0][0] == '\0')
-		path = NULL;
+		data->path = NULL;
 	else if (data->cmds->cmds[0][0] != '.' && data->cmds->cmds[0][0] != '/')
-		path = get_path(data->cmds->cmds[0], data->env);
+		data->path = get_path(data->cmds->cmds[0], data->env);
 	else
 	{
 		if (access(data->cmds->cmds[0], F_OK) == 0)
-			path = data->cmds->cmds[0];
+			data->path = data->cmds->cmds[0];
 	}
-	if (path != NULL && access(path, X_OK) == 0)
-		execve(path, data->cmds->cmds, data->env);
+	if (data->path != NULL && access(data->path, X_OK) == 0)
+		execve(data->path, data->cmds->cmds, data->env);
 	else
 	{
-		//write_error("minishell: command not found: ", data->cmds->cmds[0]);
-		//printf("minishell: command not found: %s\n", data->cmds->cmds[0]);
-		path = ft_strjoin("minishell: command not found: ", data->cmds->cmds[0]);
-		perror(path);
-		free (path);
+		data->path = ft_strjoin(E_MSG, data->cmds->cmds[0]);
+		perror(data->path);
+		free(data->path);
 		data->cmds = tmp;
 		ft_free_struct2(data);
 		exit(127);

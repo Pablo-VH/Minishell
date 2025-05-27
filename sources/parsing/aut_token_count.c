@@ -54,33 +54,6 @@ int	ft_token_state(int prev, char c)
 	return (get_state_tk(prev, pos));
 }
 
-/*int	ft_check_syntax(char *line)
-{
-	int	i;
-	int	state;
-
-	state = 0;
-	i = 0;
-	while (line[i])
-	{
-		state = check_state(state, line[i]);
-		if (state == 1)
-		{
-			printf(RED"syntax error near unexpected token\n"RESET);
-			g_exit_status = 2;
-			return (1);
-		}
-		i++;
-	}
-	if (state > 3)
-	{
-		printf(RED"syntax error near unexpected token\n"RESET);
-		g_exit_status = 2;
-		return (1);
-	}
-	return (0);
-}*/
-
 void	take_node_files(t_cmds	*nd)
 {
 	nd->s_files->file = ft_calloc(nd->s_files->nfiles + 1, sizeof(char *));
@@ -113,38 +86,30 @@ void	token_count_cmds(t_pipes *data, char *line)
 		}
 		i++;
 	}
-	//printf("numcmds::::::%d\n", data->pars->ncmds[data->pars->np]);
 	data->pars->np++;
 }
+
 void	token_count_files(t_pipes *data, char *line)
 {
-	int	i;
 	int	state;
 	int	prev;
-	t_cmds	*tmp;
 
-	i = data->pars->count_f;
 	state = 0;
-	tmp = data->cmds;
-	tmp = ft_lstlast(tmp);
+	data->tmp = data->cmds;
+	data->tmp = ft_lstlast(data->tmp);
 	if (!line)
 		return ;
-	if (line[i] == '|')
-		i++;
-	while (line[i])
+	if (line[data->pars->count_f] == '|')
+		data->pars->count_f++;
+	while (line[data->pars->count_f])
 	{
 		prev = state;
-		state = ft_token_state(state, line[i]);
-	//	printf("line[i] = %c; state:%d\n", line[i], state);
+		state = ft_token_state(state, line[data->pars->count_f]);
 		if ((state == 7 || state == 8) && (prev != 7 && prev != 8))
-			tmp->s_files->nfiles++;
+			data->tmp->s_files->nfiles++;
 		if (state == 6)
-		{
-			data->pars->count_f = i;
-		//	printf("%d\n", tmp->s_files->nfiles);
-			return (take_node_files(tmp));
-		}
-		i++;
+			return (take_node_files(data->tmp));
+		data->pars->count_f++;
 	}
-	take_node_files(tmp);
+	take_node_files(data->tmp);
 }

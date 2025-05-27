@@ -14,14 +14,14 @@
 
 int	append(t_pipes *data, int i)
 {
-	if (access(data->cmds->s_files->file[i], F_OK) == 0 &&
-		access(data->cmds->s_files->file[i], W_OK == -1))
-		{
-			write_error("minishell: Permission denied: ",
-				data->cmds->s_files->file[i]);
-			data->cmds->stop_exec = 1;
-			return (1);
-		}
+	if (access(data->cmds->s_files->file[i], F_OK) == 0
+		&& access(data->cmds->s_files->file[i], W_OK == -1))
+	{
+		write_error("minishell: Permission denied: ",
+			data->cmds->s_files->file[i]);
+		data->cmds->stop_exec = 1;
+		return (1);
+	}
 	data->cmds->s_files->fd[i] = open(data->cmds->s_files->file[i], O_CREAT
 			| O_WRONLY | O_APPEND, 0644);
 	if (data->cmds->s_files->fd[i] < 0)
@@ -36,14 +36,14 @@ int	append(t_pipes *data, int i)
 
 int	outfile(t_pipes *data, int i)
 {
-	if (access(data->cmds->s_files->file[i], F_OK) == 0 &&
-		access(data->cmds->s_files->file[i], W_OK == -1))
-		{
-			write_error("minishell: Permission denied: ",
-				data->cmds->s_files->file[i]);
-			data->cmds->stop_exec = 1;
-			return (1);
-		}
+	if (access(data->cmds->s_files->file[i], F_OK) == 0
+		&& access(data->cmds->s_files->file[i], W_OK == -1))
+	{
+		write_error("minishell: Permission denied: ",
+			data->cmds->s_files->file[i]);
+		data->cmds->stop_exec = 1;
+		return (1);
+	}
 	data->cmds->s_files->fd[i] = open(data->cmds->s_files->file[i], O_CREAT
 			| O_WRONLY | O_TRUNC, 0644);
 	if (data->cmds->s_files->fd[i] < 0)
@@ -58,14 +58,14 @@ int	outfile(t_pipes *data, int i)
 
 int	infile(t_pipes *data, int i)
 {
-	if (access(data->cmds->s_files->file[i], F_OK) == 0 &&
-		access(data->cmds->s_files->file[i], R_OK == -1))
-		{
-			write_error("minishell: Permission denied: ",
-				data->cmds->s_files->file[i]);
-			data->cmds->stop_exec = 1;
-			return (1);
-		}
+	if (access(data->cmds->s_files->file[i], F_OK) == 0
+		&& access(data->cmds->s_files->file[i], R_OK == -1))
+	{
+		write_error("minishell: Permission denied: ",
+			data->cmds->s_files->file[i]);
+		data->cmds->stop_exec = 1;
+		return (1);
+	}
 	data->cmds->s_files->fd[i] = open(data->cmds->s_files->file[i], O_RDONLY);
 	if (data->cmds->s_files->fd[i] < 0)
 	{
@@ -98,8 +98,6 @@ static void	write_here_doc(t_pipes *data, char *limiter, int i, int lim_len)
 			data->stop_exec_hd = 1;
 		if (ft_strncmp(line[0], limiter, lim_len) == 0 || g_exit_status == 130)
 			break ;
-		/*if (data->cmds->s_files->exp[i])
-			heredock_expansor(line, data);//Pendiente*/
 		write(data->cmds->s_files->fd[i], line[0], ft_strlen(line[0]));
 		free(line[0]);
 	}

@@ -12,8 +12,8 @@
 
 int	ft_isprint(char c)
 {
-	if ((c >= 32 && c <= 126) 
-		|| ((unsigned char)c>= 128 && (unsigned char)c <= 254))
+	if ((c >= 32 && c <= 126)
+		|| ((unsigned char)c >= 128 && (unsigned char)c <= 254))
 		return (1);
 	else
 		return (0);

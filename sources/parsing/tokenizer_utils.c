@@ -12,48 +12,9 @@
 
 #include "gertru.h"
 
-// retocar para cosas especificas
-// Esta funcion crea un (char *) con el comando
-// hay que recoger el comando teniendo en cuenta comillas
-// no hay que recoger las comillas
-char	*take_cmd(t_pipes *data,char *line ,int i)
-{
-	int 	j;
-	char	*cmd;
-	while (line[i] && !(line[i] >= '!' && line[i] <= 126))
-		i++;
-	j =  i;
-	while(line[j])
-	{
-		if (line[j] == '"')
-		{
-			j++;
-			while (line[j] != '"')
-				j++;
-		}
-		else if (line[j] == '\'')
-		{
-			j++;
-			while (line[j] != '\'')
-				j++;
-		}else if ((line[j] == '<' || line[j] == '>' || line[j] == '|'))
-			break;
-		if  (!(line[j] >= '!' && line[j] <= 126))
-			break;
-		j++;
-	}
-	data->pars->i = j;
-	if (i != j)
-		cmd = ft_substr(line, i, (j - i));
-	else
-		cmd = NULL;
-	return (cmd);
-}
-
-
 void	insert_cmds(t_pipes *data, char *comand)
 {
-	t_cmds *last;
+	t_cmds	*last;
 
 	last = NULL;
 	if (data->cmds)
@@ -61,7 +22,8 @@ void	insert_cmds(t_pipes *data, char *comand)
 		last = ft_lstlast(data->cmds);
 		if (!last->cmds)
 		{
-			last->cmds = ft_calloc(data->pars->ncmds[data->pars->c_cmd] + 1, sizeof(char *));
+			last->cmds = ft_calloc(data->pars->ncmds[data->pars->c_cmd] + 1,
+					sizeof(char *));
 			last->cmds[data->pars->np2] = comand;
 			data->pars->np2++;
 		}
@@ -73,26 +35,20 @@ void	insert_cmds(t_pipes *data, char *comand)
 	}
 }
 
-// recoge el primer comando
-// hay que recoger el comando teniendo en cuenta comillas
-// no hay que recoger las comillas
-void take_first_token(t_pipes *data ,char *line)
+void	take_first_token(t_pipes *data, char *line)
 {
 	token_count_cmds(data, line);
 	take_token(data);
 	token_count_files(data, line);
-	//count_cmds(data, line);
 }
 
-
-// esta funcion genera cada nodo de la lista
 void	take_token(t_pipes *data)
 {
-	t_cmds *cmd;
-	
+	t_cmds	*cmd;
+
 	cmd = NULL;
 	if (!data->cmds)
-			data->cmds = ft_lstnew();
+		data->cmds = ft_lstnew();
 	else
 	{
 		cmd = ft_lstnew();
@@ -102,14 +58,11 @@ void	take_token(t_pipes *data)
 	data->pars->np2 = 0;
 }
 
-
-/*Funcion que introduce los ficheros y el tipo de redireccion
-	en los punteros de la structura files*/
 void	set_node_files(t_pipes *data, char *file, int flagfd)
 {
-	int i;
-	t_cmds *current;
-	
+	int		i;
+	t_cmds	*current;
+
 	i = 0;
 	current = data->cmds;
 	current = ft_lstlast(current);
@@ -120,11 +73,9 @@ void	set_node_files(t_pipes *data, char *file, int flagfd)
 		{
 			current->s_files->file[i] = file;
 			current->s_files->flagfd[i] = flagfd;
-			return;
+			return ;
 		}
 		else
 			i++;
 	}
 }
-
-//current->s_files && current->s_files->file && 

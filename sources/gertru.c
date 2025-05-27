@@ -12,24 +12,18 @@
 
 #include "gertru.h"
 
-/* Funcion que recive la linea de readline()
-y llama al resto de funciones principales*/
 unsigned char	g_exit_status = 0;
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_pipes	data;
 
 	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
 	ft_memset(&data, 0, sizeof(t_pipes));
-	//data = ft_calloc(1, sizeof(t_pipes));
 	get_pwd(&data);
 	data.env = ft_init_env(envp);
 	if (argc == 1)
 		read_input(&data);
-	//data.nhrd = 0;
-	//data.npipes = 0;
 	return (0);
 }
-
