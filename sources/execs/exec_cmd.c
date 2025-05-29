@@ -118,5 +118,4 @@ void	executor(t_pipes *data, t_cmds *tmp)
 			data->path = data->cmds->cmds[0];
 	}
 	executor2(data, tmp);
-	
 }

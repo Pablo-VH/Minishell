@@ -180,6 +180,7 @@ int		ft_is_token(char *line, int i);
 int		get_state(int prev, int pos);
 
 int		syntax_init(char *line);
+int		iter_exp(char *line, int j);
 
 void	count_cmds(t_pipes *data, char *line);
 

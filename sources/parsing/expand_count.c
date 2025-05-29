@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   expand_count.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 13:46:24 by pavicent          #+#    #+#             */
-/*   Updated: 2025/05/19 13:46:26 by pavicent         ###   ########.fr       */
+/*   Created: 2025/05/29 09:33:09 by pavicent          #+#    #+#             */
+/*   Updated: 2025/05/29 09:33:46 by pavicent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gertru.h"
 
-void	handler(int signal)
+int	iter_exp(char *line, int j)
 {
-	unsigned char	c_signal;
-
-	c_signal = 130;
-	if (signal == SIGINT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		g_exit_status = g_exit_status & 0;
-		g_exit_status = g_exit_status | c_signal;
-	}
+	while (line[j] && !ft_isspace(line[j]) && !ft_is_token(line, j)
+		&& line[j] != '|' && line[j] != '"' && line[j] != '\''
+		&& line[j] != '$')
+		j++;
+	return (j);
 }

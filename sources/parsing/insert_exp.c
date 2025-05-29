@@ -30,11 +30,11 @@ void	put_exp(t_pipes *data, char *line, char *exp, int j)
 		{
 			while (line[j] && !ft_isspace(line[j]) && !ft_is_token(line, j)
 				&& line[j] != '|' && line[j] != '"' && line[j] != '\'')
-				{
-					j++;
-					if (line[j] == '$')
-						break ;
-				}
+			{
+				j++;
+				if (line[j] == '$')
+					break ;
+			}
 			if (exp)
 				end_exp(data, exp);
 		}
@@ -68,11 +68,12 @@ char	*insert_expansion(t_pipes *data, char *line, char *var, char *exp)
 	return (data->pars->new_line);
 }
 
-int env_len(char *env, size_t v_length)
+int	env_len(char *env, size_t v_length)
 {
 	size_t	i;
+
 	i = 0;
-	while(env[i] && env[i] != '=')
+	while (env[i] && env[i] != '=')
 		i++;
 	return ((i == v_length));
 }
