@@ -45,7 +45,8 @@ void	pre_exp_dol(t_pipes *data, char *line, int *i)
 	if (line[*i] == '$' && (line[(*i) + 1] == '"' || ft_isspace(line[(*i) + 1]))
 		&& line[(*i) + 1] && (data->pars->fdb == 1))
 		(*i) += 1;
-	if (line[(*i) + 1] && (line[(*i) + 1] == '"' || line[(*i) + 1] == '\'')
+	if (line[*i] && line[(*i) + 1] && (line[(*i) + 1] == '"'
+		|| line[(*i) + 1] == '\'')
 		&& data->pars->fdb == 1)
 		(*i) += 1;
 }
@@ -111,7 +112,7 @@ char	*take_v( t_pipes *data, char *line, int i)
 		i++;
 		j = i;
 		while (line[j] && !ft_isspace(line[j]) && !ft_is_token(line, j)
-			&& line[j] != '|' && line[j] != '"' && line[j] != '\'')
+			&& line[j] != '|' && line[j] != '"' && line[j] != '\'' && line[j] != '$')
 			j++;
 		new_v = ft_substr(line, i, (j - i));
 	}

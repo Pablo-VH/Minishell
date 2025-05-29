@@ -12,6 +12,16 @@
 
 #include "gertru.h"
 
+void	end_exp(t_pipes *data, char *exp)
+{
+	while (exp[data->pars->l])
+	{
+		data->pars->new_line[data->pars->k] = exp[data->pars->l];
+		data->pars->k++;
+		data->pars->l++;
+	}
+}
+
 void	put_exp(t_pipes *data, char *line, char *exp, int j)
 {
 	while (line[j])
@@ -20,16 +30,13 @@ void	put_exp(t_pipes *data, char *line, char *exp, int j)
 		{
 			while (line[j] && !ft_isspace(line[j]) && !ft_is_token(line, j)
 				&& line[j] != '|' && line[j] != '"' && line[j] != '\'')
-				j++;
-			if (exp)
-			{
-				while (exp[data->pars->l])
 				{
-					data->pars->new_line[data->pars->k] = exp[data->pars->l];
-					data->pars->k++;
-					data->pars->l++;
+					j++;
+					if (line[j] == '$')
+						break ;
 				}
-			}
+			if (exp)
+				end_exp(data, exp);
 		}
 		data->pars->new_line[data->pars->k] = line[j];
 		if (line[j])
@@ -61,6 +68,15 @@ char	*insert_expansion(t_pipes *data, char *line, char *var, char *exp)
 	return (data->pars->new_line);
 }
 
+int env_len(char *env, size_t v_length)
+{
+	size_t	i;
+	i = 0;
+	while(env[i] && env[i] != '=')
+		i++;
+	return ((i == v_length));
+}
+
 char	*search_in_env(t_pipes *data, char *v_search)
 {
 	int		i;
@@ -78,7 +94,8 @@ char	*search_in_env(t_pipes *data, char *v_search)
 		return (ft_itoa((int)g_exit_status));
 	while (data->env[i])
 	{
-		if (ft_strnstr(data->env[i], v_search, v_length + 1))
+		if (ft_strnstr(data->env[i], v_search, v_length + 1)
+			&& env_len(data->env[i], v_length))
 		{
 			path = ft_strdup(data->env[i] + v_length + 1);
 			break ;

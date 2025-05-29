@@ -65,6 +65,42 @@ char	*get_path(char	*cmd, char **env)
 	return (NULL);
 }
 
+int	check_error(t_pipes *data)
+{
+	if (data->cmds->cmds[0][0] == '/')
+	{
+		if (access(data->cmds->cmds[0], F_OK))
+		{
+			data->path = ft_strjoin(E_MSG3, data->cmds->cmds[0]);
+			perror(data->path);
+			return (0);
+		}
+		data->path = ft_strjoin(E_MSG2, data->cmds->cmds[0]);
+		perror(data->path);
+		return (1);
+	}
+	data->path = ft_strjoin(E_MSG1, data->cmds->cmds[0]);
+	perror(data->path);
+	return (0);
+}
+
+void	executor2(t_pipes *data, t_cmds *tmp)
+{
+	if (data->path != NULL && access(data->path, X_OK) == 0)
+		execve(data->path, data->cmds->cmds, data->env);
+	if (check_error(data))
+	{
+		free(data->path);
+		data->cmds = tmp;
+		ft_free_struct2(data);
+		exit(126);
+	}
+	free(data->path);
+	data->cmds = tmp;
+	ft_free_struct2(data);
+	exit(127);
+}
+
 void	executor(t_pipes *data, t_cmds *tmp)
 {
 	if (check_builtin(data, 1))
@@ -81,15 +117,6 @@ void	executor(t_pipes *data, t_cmds *tmp)
 		if (access(data->cmds->cmds[0], F_OK) == 0)
 			data->path = data->cmds->cmds[0];
 	}
-	if (data->path != NULL && access(data->path, X_OK) == 0)
-		execve(data->path, data->cmds->cmds, data->env);
-	else
-	{
-		data->path = ft_strjoin(E_MSG, data->cmds->cmds[0]);
-		perror(data->path);
-		free(data->path);
-		data->cmds = tmp;
-		ft_free_struct2(data);
-		exit(127);
-	}
+	executor2(data, tmp);
+	
 }

@@ -74,6 +74,7 @@ static int	child_process(t_pipes *data, int i, t_cmds *tmp)
 	{
 		rl_clear_history();
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		pipes_redirs(data, i, tmp);
 		if (!data->cmds->stop_exec)
 			redir_files(data, tmp);
@@ -99,9 +100,9 @@ void	cmds_exec(t_pipes *data)
 		return ;
 	while (i < data->num_cmds)
 	{
+		signal(SIGINT, SIG_IGN);
 		if (child_process(data, i, tmp))
 			break ;
-		signal(SIGINT, SIG_IGN);
 		data->cmds = data->cmds->next;
 		i++;
 	}

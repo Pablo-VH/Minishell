@@ -27,6 +27,8 @@ int	check_echo_flag(char *str, int *flag)
 			return (1);
 	}
 	*flag = 1;
+	if (str[0] == '\0')
+		*flag = 0;
 	return (0);
 }
 

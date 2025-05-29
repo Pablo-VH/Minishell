@@ -50,6 +50,12 @@ void	wait_pids(t_pipes *data, int i)
 		}
 		i++;
 	}
+	if (WTERMSIG(data->status) != 0)
+	{
+		if (WTERMSIG(data->status) == 3)
+			ft_putstr_fd("Quit (core dumped)", 2);
+		ft_putstr_fd("\n", 2);
+	}
 	if (WIFEXITED(data->status))
 		g_exit_status = WEXITSTATUS(data->status);
 	else if (WIFSIGNALED(data->status))

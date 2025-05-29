@@ -67,7 +67,9 @@
 # define N_OUTF 1 // es outfile
 # define N_HRD 2 // es heredoc
 # define N_AOUTF 3 // es outfile en modo apend
-# define E_MSG "minishell: command not found: "
+# define E_MSG1 "minishell: command not found: "
+# define E_MSG2 "minishell: Is a directory: "
+# define E_MSG3 "minishell: No such file or directory: "
 
 extern unsigned char	g_exit_status;
 
