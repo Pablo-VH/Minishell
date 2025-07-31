@@ -42,6 +42,8 @@ git clone https://github.com/Pablo-VH/Minishell.git
 cd Minishell
 make && ./minishell
 
+---
+
 # Minishell 🇬🇧
 
 Minishell is a project from School 42 that consists of implementing a small shell written in C that can interpret commands interactively, simulating the behavior of a real shell such as Bash.
